@@ -6,19 +6,17 @@ import java.util.Arrays;
 public class Brand {
     private int id;
     private String name;
-    private byte[] img;
-    private int position;
+    private String img;
     private String type;
     private int level;
 
     public Brand() {
     }
 
-    public Brand(int id, String name, byte[] img, int position, String type, int level) {
+    public Brand(int id, String name, String img, String type, int level) {
         this.id = id;
         this.name = name;
         this.img = img;
-        this.position = position;
         this.type = type;
         this.level = level;
     }
@@ -39,20 +37,12 @@ public class Brand {
         this.name = name;
     }
 
-    public byte[] getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(byte[] img) {
+    public void setImg(String img) {
         this.img = img;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 
     public String getType() {
@@ -73,11 +63,10 @@ public class Brand {
 
     @Override
     public String toString() {
-        return "brand{" +
+        return "Brand{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", img=" + Arrays.toString(img) +
-                ", position=" + position +
+                ", img='" + img + '\'' +
                 ", type='" + type + '\'' +
                 ", level=" + level +
                 '}';

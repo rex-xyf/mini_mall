@@ -5,6 +5,10 @@ import com.sim.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -16,10 +20,10 @@ public class BrandController {
 
     @GetMapping
     public Result getAll(){
-        List<Brand> books = brandService.getAll();
-        int code = books != null ? Code.GET_OK : Code.GET_ERR;
-        String msg = books != null ? "" : "have no data";
-        return new Result(code,books,msg);
+        List<Brand> brands = brandService.getAll();
+        int code = brands != null ? Code.GET_OK : Code.GET_ERR;
+        String msg = brands != null ? "" : "have no data";
+        return new Result(code,brands,msg);
     }
 
     @GetMapping("/{id}")

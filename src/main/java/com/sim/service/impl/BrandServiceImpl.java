@@ -4,9 +4,10 @@ import com.sim.dao.BrandDao;
 import com.sim.domain.Brand;
 import com.sim.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class BrandServiceImpl implements BrandService {
 
     @Autowired

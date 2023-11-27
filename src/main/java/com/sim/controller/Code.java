@@ -11,4 +11,8 @@ public class Code {
     public static final int UPDATE_ERR = 20030;
     public static final int GET_ERR = 20040;
 
+    public static final int SYSTEM_ERR = 50001;
+    public static final int BUSINESS_ERR = 60001;
+    public static final int UNKNOWN_ERR = 70001;
+
 }

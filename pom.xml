@@ -81,6 +81,30 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.9.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.clerezza.ext</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>0.4-incubating</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.62</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brand</title>
+</head>
+
+<script src="../js/vue.js"></script>
+<script src="../js/axios.js"></script>
+<script src="../element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+<script src="../element-ui/lib/umd/locale/en.js"></script>
+
+<script>
+    ELEMENT.locale(ELEMENT.lang.en);
+    new Vue({
+        el: "#div1",
+        mounted() {
+        },
+        data() {
+            return {
+                activeIndex: '1'
+            }
+        },
+        method: {
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            }
+        }
+    })
+</script>
+</html>

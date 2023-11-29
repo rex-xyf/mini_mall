@@ -9,16 +9,20 @@ public class Brand {
     private String img;
     private String type;
     private int level;
+    private boolean Delete;
+    private boolean Select;
 
     public Brand() {
     }
 
-    public Brand(int id, String name, String img, String type, int level) {
+    public Brand(int id, String name, String img, String type, int level, Boolean delete, Boolean select) {
         this.id = id;
         this.name = name;
         this.img = img;
         this.type = type;
         this.level = level;
+        Delete = delete;
+        Select = select;
     }
 
     public int getId() {
@@ -61,6 +65,22 @@ public class Brand {
         this.level = level;
     }
 
+    public boolean isDelete() {
+        return Delete;
+    }
+
+    public void setDelete(boolean delete) {
+        Delete = delete;
+    }
+
+    public boolean isSelect() {
+        return Select;
+    }
+
+    public void setSelect(boolean select) {
+        Select = select;
+    }
+
     @Override
     public String toString() {
         return "Brand{" +
@@ -69,6 +89,8 @@ public class Brand {
                 ", img='" + img + '\'' +
                 ", type='" + type + '\'' +
                 ", level=" + level +
+                ", Delete=" + Delete +
+                ", Select=" + Select +
                 '}';
     }
 }

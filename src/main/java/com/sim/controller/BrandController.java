@@ -18,6 +18,7 @@ public class BrandController {
         List<Brand> brands = brandService.getAll();
         int code = brands != null ? Code.GET_OK : Code.GET_ERR;
         String msg = brands != null ? "" : "have no data";
+        System.out.println("111");
         return new Result(code,brands,msg);
     }
 

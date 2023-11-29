@@ -4,7 +4,289 @@
     <meta charset="UTF-8">
     <title>Brand</title>
 </head>
+<body>
+<div id="div1">
+    <el-header>
+        <!--顶部选择栏-->
+        <el-menu
+                :default-active="activeIndex"
+                class="el-menu-demo"
+                mode="horizontal"
+                @select="handleSelect"
+                background-color="#545c64"
+                text-color="#fff"
+                active-text-color="#ffd04b">
+            <el-menu-item index="1">Brand Center</el-menu-item>
+            <el-menu-item index="2">Operation Panel</el-menu-item>
+            <el-menu-item index="3" disabled>Statistic</el-menu-item>
+        </el-menu>
+    </el-header>
 
+    <el-main>
+        <!--搜索栏-->
+        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form-item label="Search">
+                <el-select v-model="formInline.key" placeholder="" >
+                    <el-option label="Name" value="name"></el-option>
+                    <el-option label="Type" value="type"></el-option>
+                    <el-option label="Level" value="level"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item >
+                <el-input v-model="formInline.value" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="Search">search</el-button>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="Reset">reset</el-button>
+            </el-form-item>
+        </el-form>
+
+        <!--添加-->
+        <el-button type="primary"  @click="dialogVisible = true">add</el-button>
+        <el-dialog
+                title="ADD"
+                :visible.sync="dialogVisible"
+                width="28%">
+
+            <el-form ref="form" :model="form" label-width="120px">
+                <el-form-item label="Name">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="Image">
+                <el-upload
+                        class="upload-demo"
+                        drag
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        multiple>
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
+                </el-form-item>
+                <el-form-item label="Type">
+                    <el-select v-model="form.type" placeholder="Please select store type">
+                        <el-option label="food" value="=food"></el-option>
+                        <el-option label="clothe" value="clothe"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Level">
+                    <el-select v-model="form.level" placeholder="Please select store level">
+                        <el-option label="1" value="=1"></el-option>
+                        <el-option label="2" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="ADD">add</el-button>
+                    <el-button @click="dialogVisible = false">cancel</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+        <!--删除-->
+        <el-button type="danger"  @click="deleteAll" >delete</el-button>
+
+        <!--回收站-->
+        <el-badge :value=recoverCount class="item">
+            <el-button @click="deleteDialogVisible=true">Recycle Bin</el-button>
+        </el-badge>
+        <el-dialog
+                title="Recycle Bin"
+                :visible.sync="deleteDialogVisible"
+                width="60%">
+            <template>
+                <el-table
+                        :data="deleteData"
+                        style="width: 100%">
+                    <el-table-column
+                            prop="name"
+                            label="Name"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="img"
+                            label="Img"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="type"
+                            label="Type"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="level"
+                            label="Level"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            label="operation"
+                            align="center">
+                        <template slot-scope="scope">
+                            <el-button
+                                    size="mini"
+                                    @click="binRecover(scope.row)">Recover</el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            label="operation"
+                            align="center">
+                        <template slot-scope="scope">
+                            <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click="binDelete(scope.row)">Delete</el-button>
+                        </template>
+                    </el-table-column>
+
+                </el-table>
+            </template>
+        </el-dialog>
+
+
+        <!--表单-->
+        <template>
+            <el-table
+                    :data="tableData"
+                    style="width: 100%"
+                    :default-sort = "{prop: 'date', order: 'descending'}"
+                    @selection-change="handleSelectionChange"
+            >
+                <el-table-column
+                        align="center"
+                        type="selection"
+                >
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        type="index"
+                        sortable>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="name"
+                        label="Name">
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        label="Img"
+                        prop="img"
+                >
+                    <template slot-scope="scope">
+                        <el-image
+                                style="width: 100px; height: 100px"
+                                :src="scope.row.img"
+                                :preview-src-list="[scope.row.img]"
+                        >
+                        </el-image>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="type"
+                        label="Type"
+                        :filters="[{text: 'food', value: 'food'}, {text: 'clothe', value: 'clothe'}, {text: 'entertainment', value: 'entertainment'}]"
+                        :filter-method="filterHandler"
+                >
+                    <template slot-scope="scope">
+                        <el-tag
+                                :type="scope.row.type === 'food' ? 'success' : scope.row.type === 'clothe' ? 'warning' : scope.row.type === 'entertainment' ? 'primary' : 'danger'"
+                                disable-transitions>{{scope.row.type}}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="level"
+                        label="level"
+                        sortable
+                >
+                </el-table-column>
+
+                <el-table-column
+                        align="center"
+                        prop="select"
+                        label="Select"
+                >
+                </el-table-column>
+
+                <el-table-column label="operation"
+                                 align="center">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="mini"
+                                @click="handleChange(scope.$index, scope.row)">Select</el-button>
+                        <el-button
+                                size="mini"
+                                @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+                        <el-button
+                                size="mini"
+                                type="danger"
+                                @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+
+        <!--修改页面-->
+        <el-dialog
+                title="EDIT"
+                :visible.sync="editDialogVisible"
+                width="28%">
+
+            <el-form ref="form" :model="updateForm" label-width="120px">
+                <el-form-item label="name">
+                    <el-input v-model="updateForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="img">
+                    <el-upload
+                            class="upload-demo"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="fileList"
+                            list-type="picture">
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                </el-form-item>
+                <el-form-item label="Type">
+                    <el-select v-model="updateForm.type" placeholder="Please select store type">
+                        <el-option label="food" value="=food"></el-option>
+                        <el-option label="clothe" value="clothe"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Level">
+                    <el-select v-model="updateForm.level" placeholder="Please select store level">
+                        <el-option label="1" value="=1"></el-option>
+                        <el-option label="2" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="update">update</el-button>
+                    <el-button @click="editDialogVisible = false">cancel</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+        <!--分页栏-->
+        <template>
+            <div class="block" align="center">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[5, 10, 15]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="pageCount">
+                </el-pagination>
+            </div>
+        </template>
+
+    </el-main>
+</div>
+</body>
 <script src="../js/vue.js"></script>
 <script src="../js/axios.js"></script>
 <script src="../element-ui/lib/index.js"></script>
@@ -15,17 +297,100 @@
     ELEMENT.locale(ELEMENT.lang.en);
     new Vue({
         el: "#div1",
-        mounted() {
+        mounted(){
+            this.selectAll();
         },
         data() {
             return {
-                activeIndex: '1'
+                //顶部选项
+                activeIndex: '1',
+                //表格
+                tableData:[],
+                //搜索框
+                formInline: {
+                    key:'',
+                    value:''
+                },
+                //复选框
+                multipleSelection: [],
+                //复选框选择id
+                selectId:[],
+                //对话框
+                dialogVisible: false,
+                editDialogVisible:false,
+                departmentDialogVisible:false,
+                deleteDialogVisible:false,
+                modifyDialogVisible:false,
+                //对话框表单信息
+                form: {
+                    id:'',
+                    name: '',
+                    img:'',
+                    type:'',
+                    level:'',
+                    isDelete:false,
+                    isSelect:true,
+                },
+                updateForm:{
+                    id:'',
+                    name: '',
+                    img:'',
+                    type:'',
+                    level:'',
+                    isDelete:false,
+                    isSelect:true,
+                },
+                //回收站信息
+                deleteData:[],
+                //分页当前页数
+                currentPage: 1,
+                //总数据数
+                pageCount:0,
+                //查询页数
+                pageSize:5,
+                //回收站数量
+                recoverCount:0,
             }
         },
-        method: {
+        methods: {
+            //顶框
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
-            }
+            },
+            //修改图片
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            //复选框
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            //成功
+            Success() {
+                this.$message({
+                    showClose: true,
+                    message: 'Success!',
+                    type: 'success'
+                });
+            },
+            //失败
+            Error() {
+                this.$message({
+                    showClose: true,
+                    message: 'error',
+                    type: 'error'
+                });
+            },
+            //搜索所有
+            selectAll(){
+                axios.get("/main").then((res)=>{
+                    this.tableData = res.data.data
+                });
+            },
+
         }
     })
 </script>

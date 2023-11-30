@@ -14,8 +14,10 @@ public class BrandServiceImpl implements BrandService {
     private BrandDao brandDao;
 
     @Override
-    public List<Brand> getAll() {
-        return brandDao.getAll();
+    public List<Brand> getAll(int currentPage, int pageSize,String key,String value) {
+        int begin = (currentPage-1)*pageSize;
+        int size = pageSize;
+        return brandDao.getAll(begin,size,key,value);
     }
 
     @Override

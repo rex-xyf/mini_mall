@@ -15,7 +15,7 @@ public class Brand {
     public Brand() {
     }
 
-    public Brand(int id, String name, String img, String type, int level, Boolean delete, Boolean select) {
+    public Brand(int id, String name, String img, String type, int level, boolean delete, boolean select) {
         this.id = id;
         this.name = name;
         this.img = img;

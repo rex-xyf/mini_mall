@@ -207,7 +207,15 @@
                         align="center"
                         prop="select"
                         label="Select"
+                        :filters="[{ text: 'true', value: true }, { text: 'false', value: false }]"
+                        :filter-method="filterTagForSelect"
+                        filter-placement="bottom-end"
                 >
+                    <template slot-scope="scope">
+                        <el-tag
+                                :type="scope.row.select === true ? 'success' :'danger'"
+                                disable-transitions>{{scope.row.select}}</el-tag>
+                    </template>
                 </el-table-column>
 
                 <el-table-column label="operation"
@@ -368,6 +376,15 @@
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
+            //表格筛选
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            },
+            //表格筛选
+            filterTagForSelect(value, row) {
+                return row.select === value;
+            },
             //成功
             Success() {
                 this.$message({
@@ -386,9 +403,18 @@
             },
             //搜索所有
             selectAll(){
-                axios.get("/main").then((res)=>{
+                axios.get("/main?currentPage="+this.currentPage+"&pageSize="+this.pageSize+"&key="+this.formInline.key+"&value="+this.formInline.value+"").then((res)=>{
                     this.tableData = res.data.data
                 });
+            },
+            //搜索
+            Search() {
+                this.selectAll();
+            },
+            //取消搜索
+            Reset(){
+                this.formInline={};
+                this.selectAll();
             },
 
         }

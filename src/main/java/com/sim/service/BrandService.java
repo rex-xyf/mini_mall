@@ -7,7 +7,8 @@ import java.util.List;
 
 @Transactional
 public interface BrandService {
-    public List<Brand> getAll();
+
+    public List<Brand> getAll(int currentPage, int pageSize, String key, String value);
 
     public Brand getById(int id);
 

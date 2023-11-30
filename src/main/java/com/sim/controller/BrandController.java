@@ -14,8 +14,8 @@ public class BrandController {
     private BrandService brandService;
 
     @GetMapping
-    public Result getAll(){
-        List<Brand> brands = brandService.getAll();
+    public Result getAll(@RequestParam("currentPage")int currentPage, @RequestParam("pageSize")int pageSize,@RequestParam("key")String key,@RequestParam("value")String value){
+        List<Brand> brands = brandService.getAll(currentPage,pageSize,key,value);
         int code = brands != null ? Code.GET_OK : Code.GET_ERR;
         String msg = brands != null ? "" : "have no data";
         System.out.println("111");

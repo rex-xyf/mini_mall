@@ -21,6 +21,21 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public List<Brand> getDelete() {
+        return brandDao.getDelete();
+    }
+
+    @Override
+    public int getAllCount(String key, String value) {
+        return brandDao.getAllCount(key,value);
+    }
+
+    @Override
+    public int getDeleteCount() {
+        return brandDao.getDeleteCount();
+    }
+
+    @Override
     public Brand getById(int id) {
         return brandDao.getById(id);
     }

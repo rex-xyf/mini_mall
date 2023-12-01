@@ -8,20 +8,47 @@ import java.util.List;
 
 public interface BrandDao {
     @Select({
-            "SELECT * FROM brand",
-            "WHERE 1 = 1",
-            "<if test='key == \"name\"'>",
-            "AND name LIKE #{value}",
-            "</if>",
-            "<if test='key == \"type\"'>",
-            "AND type LIKE #{value}",
-            "</if>",
-            "<if test='key == \"level\"'>",
-            "AND level LIKE #{value}",
-            "</if>",
-            "LIMIT #{begin}, #{size}"
+            "<script>",
+            "SELECT * FROM brand WHERE `delete` = false",
+            "<choose>",
+            "  <when test='key == \"name\"'>",
+            "    AND name LIKE CONCAT('%', #{value}, '%')",
+            "  </when>",
+            "  <when test='key == \"type\"'>",
+            "    AND type LIKE CONCAT('%', #{value}, '%')",
+            "  </when>",
+            "  <when test='key == \"level\"'>",
+            "    AND level LIKE CONCAT('%', #{value}, '%')",
+            "  </when>",
+            "</choose>",
+            "limit #{begin},#{size}",
+            "</script>"
     })
     public List<Brand> getAll(@Param("begin") int begin, @Param("size") int size, @Param("key") String key, @Param("value") String value);
+
+    @Select({
+            "<script>",
+            "SELECT count(*) FROM brand WHERE `delete` = false",
+            "<choose>",
+            "  <when test='key == \"name\"'>",
+            "    AND name LIKE CONCAT('%', #{value}, '%')",
+            "  </when>",
+            "  <when test='key == \"type\"'>",
+            "    AND type LIKE CONCAT('%', #{value}, '%')",
+            "  </when>",
+            "  <when test='key == \"level\"'>",
+            "    AND level LIKE CONCAT('%', #{value}, '%')",
+            "  </when>",
+            "</choose>",
+            "</script>"
+    })
+    public int getAllCount(@Param("key") String key, @Param("value") String value);
+
+    @Select("select count(*) from brand where `delete` = true")
+    public int getDeleteCount();
+
+    @Select("select * from brand where `delete` = true")
+    public List<Brand> getDelete();
 
     @Select("select * from brand where id = #{id}")
     public Brand getById(int id);

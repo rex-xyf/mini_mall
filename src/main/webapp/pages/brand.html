@@ -109,6 +109,14 @@
                             prop="img"
                             label="Img"
                             align="center">
+                        <template slot-scope="scope">
+                            <el-image
+                                    style="width: 50px; height: 50px"
+                                    :src="scope.row.img"
+                                    :preview-src-list="[scope.row.img]"
+                            >
+                            </el-image>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="type"
@@ -307,6 +315,7 @@
         el: "#div1",
         mounted(){
             this.selectAll();
+            this.selectDelete();
         },
         data() {
             return {
@@ -376,12 +385,12 @@
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
-            //表格筛选
+            //表格筛选（组件）
             filterHandler(value, row, column) {
                 const property = column['property'];
                 return row[property] === value;
             },
-            //表格筛选
+            //表格筛选(组件)
             filterTagForSelect(value, row) {
                 return row.select === value;
             },
@@ -405,6 +414,14 @@
             selectAll(){
                 axios.get("/main?currentPage="+this.currentPage+"&pageSize="+this.pageSize+"&key="+this.formInline.key+"&value="+this.formInline.value+"").then((res)=>{
                     this.tableData = res.data.data
+                    this.pageCount = parseInt(res.data.msg)
+                });
+            },
+            //查询回收站信息
+            selectDelete(){
+                axios.get("/main/delete").then((res)=>{
+                    this.deleteData = res.data.data
+                    this.recoverCount = parseInt(res.data.msg)
                 });
             },
             //搜索
@@ -416,6 +433,15 @@
                 this.formInline={};
                 this.selectAll();
             },
+            //分页
+            handleSizeChange(val) {
+                this.pageSize = val;
+                this.selectAll();
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this.selectAll();
+            }
 
         }
     })

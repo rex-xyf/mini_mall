@@ -57,4 +57,28 @@ public class BrandServiceImpl implements BrandService {
         brandDao.delete(id);
         return true;
     }
+
+    @Override
+    public boolean deleteByIds(int[] ids) {
+        brandDao.deleteByIds(ids);
+        return true;
+    }
+
+    @Override
+    public boolean recover(int id) {
+        brandDao.recover(id);
+        return true;
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        brandDao.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public boolean toggleSelect(int id) {
+        brandDao.toggleSelect(id);
+        return true;
+    }
 }

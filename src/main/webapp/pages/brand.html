@@ -231,7 +231,7 @@
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
-                                @click="handleChange(scope.$index, scope.row)">Select</el-button>
+                                @click="handleSelectChange(scope.$index, scope.row)">Select</el-button>
                         <el-button
                                 size="mini"
                                 @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -406,7 +406,7 @@
             Error() {
                 this.$message({
                     showClose: true,
-                    message: 'error',
+                    message: 'Error',
                     type: 'error'
                 });
             },
@@ -419,11 +419,103 @@
             },
             //查询回收站信息
             selectDelete(){
-                axios.get("/main/delete").then((res)=>{
+                axios.get("/main/delete/getAll").then((res)=>{
                     this.deleteData = res.data.data
                     this.recoverCount = parseInt(res.data.msg)
                 });
             },
+            //回收站恢复
+            binRecover(row) {
+                axios({
+                    method:"post",
+                    url:"http://localhost/main/delete/recover/"+row.id+""
+                }).then(resp =>{
+                    if (resp.data.data === true){
+                        this.Success();
+                    }else {
+                        this.Error();
+                    }
+                    this.selectAll();
+                    this.selectDelete();
+                })
+            },
+
+            //回收站彻底删除
+            binDelete(row){
+                this.$confirm('This operation will permanently delete the file. Do you want to continue?', 'Tips', {
+                    confirmButtonText: 'confirm',
+                    cancelButtonText: 'cancel',
+                    type: 'warning'
+                }).then(() => {
+                    axios({
+                        method:"delete",
+                        url:"http://localhost/main/"+row.id+""
+                    }).then(resp =>{
+                        if (resp.data.data === true){
+                            this.Success();
+                        }else {
+                            this.Error();
+                        }
+                        this.selectAll();
+                        this.selectDelete();
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'Deletion cancelled'
+                    });
+                });
+            },
+
+            //删除到回收站
+            handleDelete(index,row){
+                this.$confirm('This operation will permanently move the file to recycle bin. Do you want to continue?', 'Tips', {
+                    confirmButtonText: 'confirm',
+                    cancelButtonText: 'cancel',
+                    type: 'warning'
+                }).then(() => {
+                    axios({
+                        method:"delete",
+                        url:"http://localhost/main/delete/one/"+row.id+""
+                    }).then(resp =>{
+                        if (resp.data.data === true){
+                            this.Success();
+                        }else {
+                            this.Error();
+                        }
+                        this.selectAll();
+                        this.selectDelete();
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'Deletion cancelled'
+                    });
+                });
+            },
+
+            //打开修改界面
+            handleEdit(index, row) {},
+
+            //改变选择状态
+            handleSelectChange(index,row){
+                axios({
+                    method:"post",
+                    url:"http://localhost/main/select/"+row.id+""
+                }).then(resp =>{
+                    if (resp.data.data === true){
+                        this.Success();
+                    }else {
+                        this.Error();
+                    }
+                    this.selectAll();
+                    this.selectDelete();
+                })
+            },
+
+
+
+
             //搜索
             Search() {
                 this.selectAll();

@@ -23,4 +23,12 @@ public interface BrandService {
     public boolean update(Brand brand);
 
     public boolean delete(int id);
+
+    public boolean deleteByIds(int[] ids);
+
+    public boolean recover(int id);
+
+    public boolean deleteById(int id);
+
+    public boolean toggleSelect(int id);
 }

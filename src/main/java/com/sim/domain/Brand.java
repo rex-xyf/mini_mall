@@ -9,18 +9,24 @@ public class Brand {
     private String img;
     private String type;
     private int level;
+    private String size;
+    private int consumption;
+    private int duration;
     private boolean Delete;
     private boolean Select;
 
     public Brand() {
     }
 
-    public Brand(int id, String name, String img, String type, int level, boolean delete, boolean select) {
+    public Brand(int id, String name, String img, String type, int level, String size, int consumption, int duration, boolean delete, boolean select) {
         this.id = id;
         this.name = name;
         this.img = img;
         this.type = type;
         this.level = level;
+        this.size = size;
+        this.consumption = consumption;
+        this.duration = duration;
         Delete = delete;
         Select = select;
     }
@@ -81,6 +87,30 @@ public class Brand {
         Select = select;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public int getConsumption() {
+        return consumption;
+    }
+
+    public void setConsumption(int consumption) {
+        this.consumption = consumption;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
         return "Brand{" +
@@ -89,6 +119,9 @@ public class Brand {
                 ", img='" + img + '\'' +
                 ", type='" + type + '\'' +
                 ", level=" + level +
+                ", size='" + size + '\'' +
+                ", consumption=" + consumption +
+                ", duration=" + duration +
                 ", Delete=" + Delete +
                 ", Select=" + Select +
                 '}';

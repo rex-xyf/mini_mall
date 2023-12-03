@@ -4,7 +4,14 @@ import com.sim.domain.Brand;
 import com.sim.service.BrandService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -62,6 +69,12 @@ public class BrandController {
         int code = brand != null ? Code.GET_OK : Code.GET_ERR;
         String msg = brand != null ? "" : "have no data";
         return new Result(code,brand,msg);
+    }
+
+    @PostMapping("/upload")
+    public Result handleFileUpload(@RequestParam MultipartFile file) throws IOException{
+        String newFileName = brandService.upload(file);
+        return new Result(Code.SAVE_OK,newFileName);
     }
 
     @PostMapping

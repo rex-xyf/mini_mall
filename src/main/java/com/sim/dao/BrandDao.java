@@ -59,11 +59,11 @@ public interface BrandDao {
     public Brand getById(int id);
 
     //增加add
-    @Insert("insert into brand values (null,#{name},#{img},#{type},#{level},#{delete},#{delect})")
+    @Insert("insert into brand values (null,#{name},#{img},#{type},#{level},#{size},#{consumption},#{duration},#{delete},#{select})")
     public void save(Brand Brand);
 
     //修改update
-    @Update("update brand set name = #{name},img= #{img},type= #{type},level= #{level},`delete`= #{delete},`select`= #{select} where id = #{id}")
+    @Update("update brand set name = #{name},img= #{img},type= #{type},level= #{level},`size`= #{size},consumption= #{consumption},duration= #{duration},`delete`= #{delete},`select`= #{select} where id = #{id}")
     public void update(Brand Brand);
 
     //回收站恢复

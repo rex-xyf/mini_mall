@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Brand</title>
+    <link rel="stylesheet" href="../css/brand.css">
 </head>
 <body>
 <div id="div1">
@@ -17,7 +18,7 @@
                 text-color="#fff"
                 active-text-color="#ffd04b">
             <el-menu-item index="1">Brand Center</el-menu-item>
-            <el-menu-item index="2">Operation Panel</el-menu-item>
+            <el-menu-item index="2" disabled>Operation Panel</el-menu-item>
             <el-menu-item index="3" disabled>Statistic</el-menu-item>
         </el-menu>
     </el-header>
@@ -55,27 +56,52 @@
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="Image">
-                <el-upload
-                        class="upload-demo"
-                        drag
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        multiple>
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-                </el-upload>
+                    <el-upload
+                            class="avatar-uploader"
+                            action="http://localhost/main/upload"
+                            :on-success="handleSuccess"
+                            :before-upload="beforeUpload"
+                            :show-file-list="false"
+                    >
+                        <img v-if="form.img" :src="form.img" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                    <div style="height: 30px"></div>
+                    <el-alert
+                            title="只能上传jpg/png文件，且不超过3mb"
+                            type="info"
+                            show-icon>
+                    </el-alert>
                 </el-form-item>
                 <el-form-item label="Type">
                     <el-select v-model="form.type" placeholder="Please select store type">
-                        <el-option label="food" value="=food"></el-option>
+                        <el-option label="food" value="food"></el-option>
                         <el-option label="clothe" value="clothe"></el-option>
+                        <el-option label="entertainment" value="entertainment"></el-option>
+                        <el-option label="shop" value="shop"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Level">
                     <el-select v-model="form.level" placeholder="Please select store level">
-                        <el-option label="1" value="=1"></el-option>
-                        <el-option label="2" value="2"></el-option>
+                        <el-option label="1" value=1></el-option>
+                        <el-option label="2" value=2></el-option>
+                        <el-option label="3" value=3></el-option>
+                        <el-option label="4" value=4></el-option>
+                        <el-option label="5" value=5></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="Size">
+                    <el-select v-model="form.size" placeholder="Please select store size">
+                        <el-option label="large" value="large"></el-option>
+                        <el-option label="moderate" value="moderate"></el-option>
+                        <el-option label="small" value="small"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Consumption">
+                    <el-input v-model="form.consumption"></el-input>
+                </el-form-item>
+                <el-form-item label="Duration">
+                    <el-input v-model="form.duration"></el-input>
                 </el-form-item>
 
                 <el-form-item>
@@ -126,6 +152,21 @@
                     <el-table-column
                             prop="level"
                             label="Level"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="size"
+                            label="Size"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="consumption"
+                            label="Consumption"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="duration"
+                            label="Duration"
                             align="center">
                     </el-table-column>
                     <el-table-column
@@ -194,7 +235,7 @@
                         align="center"
                         prop="type"
                         label="Type"
-                        :filters="[{text: 'food', value: 'food'}, {text: 'clothe', value: 'clothe'}, {text: 'entertainment', value: 'entertainment'}]"
+                        :filters="[{text: 'food', value: 'food'}, {text: 'clothe', value: 'clothe'}, {text: 'entertainment', value: 'entertainment'},{text: 'shop', value: 'shop'}]"
                         :filter-method="filterHandler"
                 >
                     <template slot-scope="scope">
@@ -206,7 +247,32 @@
                 <el-table-column
                         align="center"
                         prop="level"
-                        label="level"
+                        label="Level"
+                        sortable
+                >
+                </el-table-column>
+
+                <el-table-column
+                        align="center"
+                        prop="size"
+                        label="Size"
+                        :filters="[{text: 'large', value: 'large'}, {text: 'moderate', value: 'moderate'}, {text: 'small', value: 'small'}]"
+                        :filter-method="filterHandler"
+                >
+                </el-table-column>
+
+                <el-table-column
+                        align="center"
+                        prop="consumption"
+                        label="Per Consumption ($)"
+                        sortable
+                >
+                </el-table-column>
+
+                <el-table-column
+                        align="center"
+                        prop="duration"
+                        label="Per Duration (min)"
                         sortable
                 >
                 </el-table-column>
@@ -251,32 +317,56 @@
                 width="28%">
 
             <el-form ref="form" :model="updateForm" label-width="120px">
-                <el-form-item label="name">
+                <el-form-item label="Name">
                     <el-input v-model="updateForm.name"></el-input>
                 </el-form-item>
-                <el-form-item label="img">
+                <el-form-item label="Img">
                     <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
-                            :file-list="fileList"
-                            list-type="picture">
-                        <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                            class="avatar-uploader"
+                            action="http://localhost/main/upload"
+                            :on-success="handleUpdateSuccess"
+                            :before-upload="beforeUpload"
+                            :show-file-list="false"
+                    >
+                        <img v-if="updateForm.img" :src="updateForm.img" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
+                    <div style="height: 30px"></div>
+                    <el-alert
+                            title="只能上传jpg/png文件，且不超过3mb"
+                            type="info"
+                            show-icon>
+                    </el-alert>
                 </el-form-item>
                 <el-form-item label="Type">
                     <el-select v-model="updateForm.type" placeholder="Please select store type">
-                        <el-option label="food" value="=food"></el-option>
+                        <el-option label="food" value="food"></el-option>
                         <el-option label="clothe" value="clothe"></el-option>
+                        <el-option label="entertainment" value="entertainment"></el-option>
+                        <el-option label="shop" value="shop"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Level">
                     <el-select v-model="updateForm.level" placeholder="Please select store level">
-                        <el-option label="1" value="=1"></el-option>
-                        <el-option label="2" value="2"></el-option>
+                        <el-option label="1" value=1></el-option>
+                        <el-option label="2" value=2></el-option>
+                        <el-option label="3" value=3></el-option>
+                        <el-option label="4" value=4></el-option>
+                        <el-option label="5" value=5></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="Size">
+                    <el-select v-model="updateForm.size" placeholder="Please select store size">
+                        <el-option label="large" value="large"></el-option>
+                        <el-option label="moderate" value="moderate"></el-option>
+                        <el-option label="small" value="small"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Consumption">
+                    <el-input v-model="updateForm.consumption"></el-input>
+                </el-form-item>
+                <el-form-item label="Duration">
+                    <el-input v-model="updateForm.duration"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="update">update</el-button>
@@ -321,6 +411,10 @@
             return {
                 //顶部选项
                 activeIndex: '1',
+                //添加图片表头
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                },
                 //表格
                 tableData:[],
                 //搜索框
@@ -345,6 +439,9 @@
                     img:'',
                     type:'',
                     level:'',
+                    size:'',
+                    consumption:'',
+                    duration:'',
                     isDelete:false,
                     isSelect:true,
                 },
@@ -354,6 +451,9 @@
                     img:'',
                     type:'',
                     level:'',
+                    size:'',
+                    consumption:'',
+                    duration:'',
                     isDelete:false,
                     isSelect:true,
                 },
@@ -494,8 +594,84 @@
                 });
             },
 
+            //批量删除
+            deleteAll(){
+                this.$confirm('This operation will permanently delete the file. Do you want to continue?', 'Tips', {
+                    confirmButtonText: 'confirm',
+                    cancelButtonText: 'cancel',
+                    type: 'warning'
+                }).then(() => {
+                    for (let i = 0; i <this.multipleSelection.length; i++) {
+                        this.selectId[i] = this.multipleSelection[i].id
+                    }
+                    axios({
+                        method:"delete",
+                        url:"http://localhost/main/delete/many/"+this.selectId+""
+                    }).then(resp =>{
+                        if (resp.data.data === true){
+                            this.Success();
+                        }else {
+                            this.Error();
+                        }
+                        this.selectAll();
+                        this.selectDelete();
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'Deletion cancelled'
+                    });
+                });
+            },
+
             //打开修改界面
-            handleEdit(index, row) {},
+            handleEdit(index, row) {
+                axios({
+                    method:"get",
+                    url:"http://localhost/main/"+row.id+""
+                }).then(resp =>{
+                    this.updateForm = resp.data.data
+                    this.editDialogVisible = true;
+                })
+            },
+
+            //修改
+            update(){
+                axios({
+                    method:"put",
+                    url:"http://localhost/main/",
+                    data:this.updateForm
+                }).then(resp =>{
+                    if (resp.data.code === 20031) {
+                        this.editDialogVisible = false;
+                        this.selectAll();
+                        this.Success();
+                        this.updateForm = {};
+                    }
+                    else {
+                        this.Error();
+                    }
+                })
+            },
+
+            //增加
+            ADD(){
+                axios({
+                    method:"post",
+                    url:"http://localhost/main/",
+                    data:this.form
+                }).then(resp =>{
+                    if (resp.data.code === 20011) {
+                        this.dialogVisible = false;
+                        this.selectAll();
+                        this.Success();
+                        this.form = {};
+                    }
+                    else {
+                        this.Error();
+                    }
+                })
+            },
 
             //改变选择状态
             handleSelectChange(index,row){
@@ -513,7 +689,42 @@
                 })
             },
 
+            //上传图片
+            beforeUpload(file) {
+                // 文件类型检查
+                const isImage = file.type.startsWith('image/');
+                if (!isImage) {
+                    this.$message.error('只能上传 jpg/png 文件');
+                    return false;
+                }
 
+                // 文件大小检查
+                const isLt2M = file.size / 1024 / 1024 < 3;
+                if (!isLt2M) {
+                    this.$message.error('文件大小不能超过 3MB');
+                    return false;
+                }
+
+                // 省略其他检查，保留上传前的处理
+                return true;
+            },
+            handleSuccess(response,file){
+                if (response.code === 20011) {
+                    this.Success();
+                    this.form.img = '../img/' + response.data;
+                } else {
+                    this.Error();
+                }
+            },
+            //修改图片成功
+            handleUpdateSuccess(response,file){
+                if (response.code === 20011) {
+                    this.Success();
+                    this.updateForm.img = '../img/' + response.data;
+                } else {
+                    this.Error();
+                }
+            },
 
 
             //搜索

@@ -2,6 +2,7 @@ package com.sim.service;
 
 import com.sim.domain.Brand;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface BrandService {
     public boolean deleteById(int id);
 
     public boolean toggleSelect(int id);
+
+    public String upload(MultipartFile file);
 }

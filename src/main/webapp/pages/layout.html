@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>22</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.js"></script>
+    <script src="../element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+    <script src="../element-ui/lib/umd/locale/en.js"></script>
+    <script src="https://www.itxst.com/package/sortable/Sortable.min.js"></script>
+    <script src="https://www.itxst.com/package/vuedraggable/vuedraggable.umd.min.js"></script>
+    <link rel="stylesheet" href="../css/layout.css"></link>
+</head>
+<body style="padding:10px;">
+<div id="app">
+    <el-header>
+        <!--顶部选择栏-->
+        <el-menu
+                :default-active="activeIndex"
+                class="el-menu-demo"
+                mode="horizontal"
+                @select="handleSelect"
+                background-color="#545c64"
+                text-color="#fff"
+                active-text-color="#ffd04b">
+            <el-menu-item index="1">Brand Center</el-menu-item>
+            <el-menu-item index="2">Operation Panel</el-menu-item>
+            <el-menu-item index="3" disabled>Statistic</el-menu-item>
+        </el-menu>
+    </el-header>
+
+    <!--使用draggable组件-->
+    <div class="itxst">
+
+        <div class="col" id="brands">
+            <el-button type="primary" class="button">find</el-button>
+            <draggable v-model="brands" group="site" animation="100" @start="onStart" @end="onEnd">
+                <transition-group  :style="style">
+                    <div class="item" v-for="item in brands" :key="item.id"><el-image
+                            style="width: 50px; height: 50px"
+                            :src="item.name"
+                            :preview-src-list="[item.name]"
+                    >
+                    </el-image></div>
+                </transition-group>
+            </draggable>
+        </div>
+
+
+        <div class="row1">
+            <div class="col" id="p1">
+                1
+                <draggable v-model="p1" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p1" :key="item.id">
+                            <el-image
+                                    style="width: 100px; height: 100px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p2">
+                2
+                <draggable v-model="p2" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p2" :key="item.id">
+                            <el-image
+                                style="width: 75px; height: 75px"
+                                :src="item.name"
+                                :preview-src-list="[item.name]"
+                        >
+                        </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p3">
+                3
+                <draggable v-model="p3" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p3" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p4">
+                4
+                <draggable v-model="p4" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p4" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p5">
+                5
+                <draggable v-model="p5" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p5" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p6">
+                6
+                <draggable v-model="p6" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p6" :key="item.id">
+                            <el-image
+                                    style="width: 100px; height: 100px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+        </div>
+
+        <div class="row2">
+            <div class="col" id="p7">
+                7
+                <draggable v-model="p7" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p7" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+
+            <div class="col" id="p8">
+                8
+                <draggable v-model="p8" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p8" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+
+            <div class="col" id="p9">
+                9
+                <draggable v-model="p9" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p9" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+
+            <div class="col" id="p10">
+                10
+                <draggable v-model="p10" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p10" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+
+        </div>
+
+        <div class="row3">
+            <div class="white"></div>
+        </div>
+
+        <div class="row4">
+            <div class="col" id="p11">
+                11
+                <draggable v-model="p11" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p11" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+
+            <div class="col" id="p12">
+                12
+                <draggable v-model="p12" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p12" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+
+            <div class="col" id="p13">
+                13
+                <draggable v-model="p13" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p13" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+
+            <div class="col" id="p14">
+                14
+                <draggable v-model="p14" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p14" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+        </div>
+
+        <div class="row5">
+            <div class="col" id="p15">
+                15
+                <draggable v-model="p15" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p15" :key="item.id">
+                            <el-image
+                                    style="width: 100px; height: 100px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image>
+                        </div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p16">
+                16
+                <draggable v-model="p16" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p16" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p17">
+                17
+                <draggable v-model="p17" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p17" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p18">
+                18
+                <draggable v-model="p18" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p18" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p19">
+                19
+                <draggable v-model="p19" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p19" :key="item.id">
+                            <el-image
+                                    style="width: 75px; height: 75px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+            <div class="col" id="p20">
+                20
+                <draggable v-model="p20" group="site" animation="100" @start="onStart" @end="onEnd">
+                    <transition-group :style="style">
+                        <div class="item" v-for="item in p20" :key="item.id">
+                            <el-image
+                                    style="width: 100px; height: 100px"
+                                    :src="item.name"
+                                    :preview-src-list="[item.name]"
+                            >
+                            </el-image></div>
+                    </transition-group>
+                </draggable>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // debugger;
+    Vue.component('vuedraggable', window.vuedraggable.name)
+    var app = new Vue({
+        el: '#app',
+        components: {
+            vuedraggable,
+        },
+        data() {
+            return {
+                activeIndex: '2',
+                drag: false,
+                brands: [
+                    { id: 1, name: '../img/nike.png' },
+                    { id: 2, name: '../img/kfc.png' },
+                    { id: 3, name: '../img/nintendo.png' },
+                    { id: 4, name: '../img/sega.png' },
+                    { id: 5, name: '../img/adidas.png' },
+                    { id: 6, name: '../img/puma.png' },
+                    { id: 7, name: '../img/starbucks.png' },
+                    { id: 8, name: '../img/fila.png' },
+                ],
+                p1: [ ],
+                p2: [ ],
+                p3: [ ],
+                p4: [ ],
+                p5: [ ],
+                p6: [ ],
+                p7: [ ],
+                p8: [ ],
+                p9: [ ],
+                p10: [ ],
+                p11: [ ],
+                p12: [ ],
+                p13: [ ],
+                p14: [ ],
+                p15: [ ],
+                p16: [ ],
+                p17: [ ],
+                p18: [ ],
+                p19: [ ],
+                p20: [ ],
+                //空数组之在的样式，设置了这个样式才能拖入
+                style:'min-height:100px;display: block;'
+            };
+        },
+        methods: {
+            onStart() {
+                this.drag = true;
+            },
+            onEnd() {
+                this.drag = false;
+            },
+
+        }
+    });
+</script>
+</body>
+</html>

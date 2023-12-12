@@ -103,4 +103,9 @@ public class BrandServiceImpl implements BrandService {
         }
         return newFileName;
     }
+
+    @Override
+    public List<Brand> getBySelect() {
+        return brandDao.getBySelect();
+    }
 }

@@ -94,4 +94,13 @@ public class BrandController {
         boolean flag = brandService.delete(id);
         return new Result(flag == true ? Code.DELETE_OK : Code.DELETE_ERR , flag);
     }
+
+    @GetMapping("/select")
+    public Result getBySelect(){
+        List<Brand> brands = brandService.getBySelect();
+        int code = brands != null ? Code.GET_OK : Code.GET_ERR;
+        String msg = brands != null ? "" : "have no data";
+        return new Result(code,brands,msg);
+    }
+
 }

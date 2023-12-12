@@ -34,4 +34,6 @@ public interface BrandService {
     public boolean toggleSelect(int id);
 
     public String upload(MultipartFile file);
+
+    public List<Brand> getBySelect();
 }

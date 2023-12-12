@@ -1,9 +1,10 @@
 .itxst {
     margin: 10px;
+    overflow: auto;
 }
 
 .col {
-    width: 4.5%;
+    width: 6.5%;
     flex: 1;
     padding: 6px;
     border: solid 1px #eee;
@@ -40,11 +41,11 @@
 }
 
 .row1{
-    width: 85%;
+    width: 1500px;
 }
 
 .row2{
-    width: 85%;
+    width: 1500px;
 }
 
 .row3{
@@ -52,11 +53,11 @@
 }
 
 .row4{
-    width: 85%;
+    width: 1500px;
 }
 
 .row5{
-    width: 85%;
+    width: 1500px;
 }
 
 .white{
@@ -259,4 +260,20 @@
     border: black 1px solid;
     display: inline-block;
     background-color: #eaeaea;
+}
+
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 150px;
+    margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
 }

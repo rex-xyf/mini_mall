@@ -94,4 +94,7 @@ public interface BrandDao {
     //回收站彻底删除
     @Delete("delete from brand where id = #{id}")
     public void delete(int id);
+
+    @Select("select * from brand where `select` = true and `delete` = false")
+    public List<Brand> getBySelect();
 }

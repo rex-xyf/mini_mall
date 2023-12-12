@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>22</title>
+    <title>dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
     <script src="../js/vue.js"></script>
     <script src="../js/axios.js"></script>
@@ -13,7 +13,7 @@
     <script src="https://www.itxst.com/package/vuedraggable/vuedraggable.umd.min.js"></script>
     <link rel="stylesheet" href="../css/layout.css"></link>
 </head>
-<body style="padding:10px;">
+<body>
 <div id="app">
     <el-header>
         <!--顶部选择栏-->
@@ -26,22 +26,250 @@
                 text-color="#fff"
                 active-text-color="#ffd04b">
             <el-menu-item index="1">Brand Center</el-menu-item>
-            <el-menu-item index="2">Operation Panel</el-menu-item>
+            <el-menu-item index="2">Operation Dashboard</el-menu-item>
             <el-menu-item index="3" disabled>Statistic</el-menu-item>
         </el-menu>
     </el-header>
 
-    <!--使用draggable组件-->
-    <div class="itxst">
+    <el-container>
+    <el-aside width="170px">
+        <el-menu
+                class="el-menu-vertical-demo"
+                @open="handleOpen"
+                @close="handleClose">
+            <el-menu-item index="1">
+                <i class="el-icon-menu"></i>
+                <span slot="title" @click="brandDialogVisible = true">Brands</span>
+            </el-menu-item>
+            <el-menu-item index="2">
+                <i class="el-icon-document"></i>
+                <span slot="title" @click="programmeDialogVisible = true">Programme</span>
+            </el-menu-item>
+            <el-menu-item index="3">
+                <i class="el-icon-setting"></i>
+                <span slot="title" @click="setUpDialogVisible = true">Set up</span>
+            </el-menu-item>
+            <el-menu-item index="4">
+                <i class="el-icon-question"></i>
+                <span slot="title" @click="supportDialogVisible = true">Support</span>
+            </el-menu-item>
+        </el-menu>
+    </el-aside>
 
-        <div class="col" id="brands">
-            <el-button type="primary" class="button">find</el-button>
-            <draggable v-model="brands" group="site" animation="100" @start="onStart" @end="onEnd">
+
+    <el-main>
+<!--        1品牌表格-->
+        <el-dialog
+                title="Brand Information"
+                :visible.sync="brandDialogVisible"
+                width="60%"
+                height="600px"
+        >
+            <template>
+                <el-table
+                        :data="brands"
+                        style="width: 100%"
+                        height="600px"
+                >
+                    <el-table-column
+                            prop="name"
+                            label="Name"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="img"
+                            label="Img"
+                            align="center">
+                        <template slot-scope="scope">
+                            <el-image
+                                    style="width: 50px; height: 50px"
+                                    :src="scope.row.img"
+                                    :preview-src-list="[scope.row.img]"
+                            >
+                            </el-image>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="type"
+                            label="Type"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="level"
+                            label="Level"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="size"
+                            label="Size"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="consumption"
+                            label="Consumption"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="duration"
+                            label="Duration"
+                            align="center">
+                    </el-table-column>
+                </el-table>
+            </template>
+        </el-dialog>
+
+<!--        2方案-->
+        <el-dialog
+                title="Programme"
+                :visible.sync="programmeDialogVisible"
+                width="80%"
+                height="600px"
+        >
+            <template>
+                <el-table
+                        :data="programmes"
+                        style="width: 100%"
+                        height="600px"
+                >
+                    <el-table-column
+                            align="center"
+                            type="index"
+                            sortable>
+                    </el-table-column>
+                    <el-table-column
+                            prop="name"
+                            label="Name"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="number"
+                            label="Number"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="strategy"
+                            label="Strategy"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="competitorInfluence"
+                            label="Competitor influence"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="typeComplementarity"
+                            label="Type complementarity"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="brandBenefits"
+                            label="Brand benefits"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column
+                            prop="sizeEfficiency"
+                            label="Scale-Flow efficiency"
+                            align="center">
+                    </el-table-column>
+                    <el-table-column label="operation"
+                                     align="center">
+                        <template slot-scope="scope">
+                            <el-button
+                                    size="mini"
+                                    @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </template>
+        </el-dialog>
+
+<!--        3设置-->
+        <el-dialog
+                title="Set up"
+                :visible.sync="setUpDialogVisible"
+                width="40%">
+
+            <el-form ref="form" :model="form" label-width="200px">
+                <el-form-item label="Strategy">
+                    <el-select v-model="form.strategy" placeholder="Please select strategy">
+                        <el-option label="Maximizing overall profits" value="maxValue"></el-option>
+                        <el-option label="Maximizing profit balance" value="maxBalance"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Competitor influence">
+                    <el-slider
+                            v-model="form.competitorInfluence"
+                            range
+                            show-stops
+                            :step="0.1"
+                            :max="1">
+                    </el-slider>
+                </el-form-item>
+                <el-form-item label="Type complementarity">
+                    <el-slider
+                            v-model="form.typeComplementarity"
+                            range
+                            show-stops
+                            :step="0.1"
+                            :max="1">
+                    </el-slider>
+                </el-form-item>
+                <el-form-item label="Brand awareness benefits">
+                    <el-slider
+                            v-model="form.brandBenefits"
+                            range
+                            show-stops
+                            :step="0.1"
+                            :max="1">
+                    </el-slider>
+                </el-form-item>
+                <el-form-item label="Scale-Flow efficiency">
+                    <el-slider
+                            v-model="form.sizeEfficiency"
+                            range
+                            show-stops
+                            :step="0.1"
+                            :max="1">
+                    </el-slider>
+                    <el-alert
+                            title="This is a preset strategy"
+                            type="info"
+                            show-icon>
+                    </el-alert>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="setUp">confirm</el-button>
+                    <el-button @click="setUpDialogVisible = false">cancel</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+<!--        4帮助-->
+        <el-dialog
+                title="Support"
+                :visible.sync="supportDialogVisible"
+                width="1000px"
+                >
+            <template>
+                <div class="block">
+                    <el-carousel indicator-position="outside" height="500px">
+                        <el-carousel-item v-for="item in imgwrap" :key="item.url">
+                            <img :src="item.url"/>
+                        </el-carousel-item>
+                    </el-carousel>
+                </div>
+            </template>
+        </el-dialog>
+    <div class="itxst">
+        <div class="col" id="brands" style="height: 800px;overflow: auto">
+            <el-button type="primary" class="button" style="width: 75%">Find</el-button>
+            <el-button type="primary" class="button" style="width: 75%">Save</el-button>
+            <draggable v-model="brands" group="site" animation="100" @start="onStart" @end="onEnd" :scroll="true">
                 <transition-group  :style="style">
                     <div class="item" v-for="item in brands" :key="item.id"><el-image
                             style="width: 50px; height: 50px"
-                            :src="item.name"
-                            :preview-src-list="[item.name]"
+                            :src="item.img"
+                            :preview-src-list="[item.img]"
                     >
                     </el-image></div>
                 </transition-group>
@@ -57,8 +285,8 @@
                         <div class="item" v-for="item in p1" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -72,8 +300,8 @@
                         <div class="item" v-for="item in p2" :key="item.id">
                             <el-image
                                 style="width: 75px; height: 75px"
-                                :src="item.name"
-                                :preview-src-list="[item.name]"
+                                :src="item.img"
+                                :preview-src-list="[item.img]"
                         >
                         </el-image></div>
                     </transition-group>
@@ -86,8 +314,8 @@
                         <div class="item" v-for="item in p3" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -100,8 +328,8 @@
                         <div class="item" v-for="item in p4" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -114,8 +342,8 @@
                         <div class="item" v-for="item in p5" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -128,8 +356,8 @@
                         <div class="item" v-for="item in p6" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -145,8 +373,8 @@
                         <div class="item" v-for="item in p7" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -161,8 +389,8 @@
                         <div class="item" v-for="item in p8" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -177,8 +405,8 @@
                         <div class="item" v-for="item in p9" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -193,8 +421,8 @@
                         <div class="item" v-for="item in p10" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -216,8 +444,8 @@
                         <div class="item" v-for="item in p11" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -232,8 +460,8 @@
                         <div class="item" v-for="item in p12" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -248,8 +476,8 @@
                         <div class="item" v-for="item in p13" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -264,8 +492,8 @@
                         <div class="item" v-for="item in p14" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -282,8 +510,8 @@
                         <div class="item" v-for="item in p15" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image>
                         </div>
@@ -297,8 +525,8 @@
                         <div class="item" v-for="item in p16" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -311,8 +539,8 @@
                         <div class="item" v-for="item in p17" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -325,8 +553,8 @@
                         <div class="item" v-for="item in p18" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -339,22 +567,23 @@
                         <div class="item" v-for="item in p19" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
                 </draggable>
             </div>
             <div class="col" id="p20">
-                20
+                <div style="float: right">20</div>
+                <div style="height: 75px"></div>
                 <draggable v-model="p20" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
                         <div class="item" v-for="item in p20" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
-                                    :src="item.name"
-                                    :preview-src-list="[item.name]"
+                                    :src="item.img"
+                                    :preview-src-list="[item.img]"
                             >
                             </el-image></div>
                     </transition-group>
@@ -362,6 +591,8 @@
             </div>
         </div>
     </div>
+    </el-main>
+    </el-container>
 </div>
 <script>
     // debugger;
@@ -371,20 +602,32 @@
         components: {
             vuedraggable,
         },
+        mounted(){
+            this.selectAll();
+        },
         data() {
             return {
                 activeIndex: '2',
+                supportDialogVisible: false,
+                brandDialogVisible: false,
+                setUpDialogVisible: false,
+                programmeDialogVisible: false,
                 drag: false,
-                brands: [
-                    { id: 1, name: '../img/nike.png' },
-                    { id: 2, name: '../img/kfc.png' },
-                    { id: 3, name: '../img/nintendo.png' },
-                    { id: 4, name: '../img/sega.png' },
-                    { id: 5, name: '../img/adidas.png' },
-                    { id: 6, name: '../img/puma.png' },
-                    { id: 7, name: '../img/starbucks.png' },
-                    { id: 8, name: '../img/fila.png' },
+                imgwrap:[
+                    {url:"../img/map.jpg"},
+                    {url:"../img/map.jpg"},
+                    {url:"../img/map.jpg"},
+                    {url:"../img/map.jpg"},
                 ],
+                form: {
+                    strategy:'maxValue',
+                    competitorInfluence:[0.5,0.5],
+                    typeComplementarity:[0.5,0.5],
+                    brandBenefits:[0.5,0.5],
+                    sizeEfficiency:[0.5,0.5],
+                },
+                brands: [],
+                programmes:[],
                 p1: [ ],
                 p2: [ ],
                 p3: [ ],
@@ -410,11 +653,27 @@
             };
         },
         methods: {
+            //搜索品牌
+            selectAll(){
+                axios.get("/main/select").then((res)=>{
+                    this.brands = res.data.data;
+                });
+            },
             onStart() {
                 this.drag = true;
             },
             onEnd() {
                 this.drag = false;
+            },
+            //2方案修改
+            handleEdit(index, row) {
+                // axios({
+                //     method:"get",
+                //     url:"http://localhost/main/"+row.id+""
+                // }).then(resp =>{
+                //     this.updateForm = resp.data.data
+                //     this.editDialogVisible = true;
+                // })
             },
 
         }

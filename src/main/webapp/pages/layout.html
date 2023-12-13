@@ -262,7 +262,7 @@
         </el-dialog>
     <div class="itxst">
         <div class="col" id="brands" style="height: 800px;overflow: auto">
-            <el-button type="primary" class="button" style="width: 75%">Find</el-button>
+            <el-button type="primary" class="button" style="width: 75%" @click="find">Find</el-button>
             <el-button type="primary" class="button" style="width: 75%">Save</el-button>
             <draggable v-model="brands" group="site" animation="100" @start="onStart" @end="onEnd" :scroll="true">
                 <transition-group  :style="style">
@@ -280,9 +280,9 @@
         <div class="row1">
             <div class="col" id="p1">
                 1
-                <draggable v-model="p1" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p1" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p1" :key="item.id">
+                        <div class="item" v-for="item in form.location.p1" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
                                     :src="item.img"
@@ -295,9 +295,9 @@
             </div>
             <div class="col" id="p2">
                 2
-                <draggable v-model="p2" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p2" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p2" :key="item.id">
+                        <div class="item" v-for="item in form.location.p2" :key="item.id">
                             <el-image
                                 style="width: 75px; height: 75px"
                                 :src="item.img"
@@ -309,9 +309,9 @@
             </div>
             <div class="col" id="p3">
                 3
-                <draggable v-model="p3" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p3" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p3" :key="item.id">
+                        <div class="item" v-for="item in form.location.p3" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -323,9 +323,9 @@
             </div>
             <div class="col" id="p4">
                 4
-                <draggable v-model="p4" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p4" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p4" :key="item.id">
+                        <div class="item" v-for="item in form.location.p4" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -337,9 +337,9 @@
             </div>
             <div class="col" id="p5">
                 5
-                <draggable v-model="p5" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p5" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p5" :key="item.id">
+                        <div class="item" v-for="item in form.location.p5" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -351,9 +351,9 @@
             </div>
             <div class="col" id="p6">
                 6
-                <draggable v-model="p6" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p6" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p6" :key="item.id">
+                        <div class="item" v-for="item in form.location.p6" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
                                     :src="item.img"
@@ -368,9 +368,9 @@
         <div class="row2">
             <div class="col" id="p7">
                 7
-                <draggable v-model="p7" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p7" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p7" :key="item.id">
+                        <div class="item" v-for="item in form.location.p7" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -384,9 +384,9 @@
 
             <div class="col" id="p8">
                 8
-                <draggable v-model="p8" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p8" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p8" :key="item.id">
+                        <div class="item" v-for="item in form.location.p8" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -400,9 +400,9 @@
 
             <div class="col" id="p9">
                 9
-                <draggable v-model="p9" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p9" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p9" :key="item.id">
+                        <div class="item" v-for="item in form.location.p9" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -416,9 +416,9 @@
 
             <div class="col" id="p10">
                 10
-                <draggable v-model="p10" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p10" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p10" :key="item.id">
+                        <div class="item" v-for="item in form.location.p10" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -439,9 +439,9 @@
         <div class="row4">
             <div class="col" id="p11">
                 11
-                <draggable v-model="p11" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p11" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p11" :key="item.id">
+                        <div class="item" v-for="item in form.location.p11" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -455,9 +455,9 @@
 
             <div class="col" id="p12">
                 12
-                <draggable v-model="p12" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p12" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p12" :key="item.id">
+                        <div class="item" v-for="item in form.location.p12" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -471,9 +471,9 @@
 
             <div class="col" id="p13">
                 13
-                <draggable v-model="p13" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p13" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p13" :key="item.id">
+                        <div class="item" v-for="item in form.location.p13" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -487,9 +487,9 @@
 
             <div class="col" id="p14">
                 14
-                <draggable v-model="p14" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p14" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p14" :key="item.id">
+                        <div class="item" v-for="item in form.location.p14" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -505,9 +505,9 @@
         <div class="row5">
             <div class="col" id="p15">
                 15
-                <draggable v-model="p15" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p15" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p15" :key="item.id">
+                        <div class="item" v-for="item in form.location.p15" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
                                     :src="item.img"
@@ -520,9 +520,9 @@
             </div>
             <div class="col" id="p16">
                 16
-                <draggable v-model="p16" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p16" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p16" :key="item.id">
+                        <div class="item" v-for="item in form.location.p16" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -534,9 +534,9 @@
             </div>
             <div class="col" id="p17">
                 17
-                <draggable v-model="p17" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p17" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p17" :key="item.id">
+                        <div class="item" v-for="item in form.location.p17" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -548,9 +548,9 @@
             </div>
             <div class="col" id="p18">
                 18
-                <draggable v-model="p18" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p18" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p18" :key="item.id">
+                        <div class="item" v-for="item in form.location.p18" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -562,9 +562,9 @@
             </div>
             <div class="col" id="p19">
                 19
-                <draggable v-model="p19" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p19" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p19" :key="item.id">
+                        <div class="item" v-for="item in form.location.p19" :key="item.id">
                             <el-image
                                     style="width: 75px; height: 75px"
                                     :src="item.img"
@@ -577,9 +577,9 @@
             <div class="col" id="p20">
                 <div style="float: right">20</div>
                 <div style="height: 75px"></div>
-                <draggable v-model="p20" group="site" animation="100" @start="onStart" @end="onEnd">
+                <draggable v-model="form.location.p20" group="site" animation="100" @start="onStart" @end="onEnd">
                     <transition-group :style="style">
-                        <div class="item" v-for="item in p20" :key="item.id">
+                        <div class="item" v-for="item in form.location.p20" :key="item.id">
                             <el-image
                                     style="width: 100px; height: 100px"
                                     :src="item.img"
@@ -620,34 +620,39 @@
                     {url:"../img/map.jpg"},
                 ],
                 form: {
+                    id:'0',
+                    name:'plan',
+                    count:'',
                     strategy:'maxValue',
                     competitorInfluence:[0.5,0.5],
                     typeComplementarity:[0.5,0.5],
                     brandBenefits:[0.5,0.5],
                     sizeEfficiency:[0.5,0.5],
+                    location: {
+                        p1: [],
+                        p2: [],
+                        p3: [],
+                        p4: [],
+                        p5: [],
+                        p6: [],
+                        p7: [],
+                        p8: [],
+                        p9: [],
+                        p10: [],
+                        p11: [],
+                        p12: [],
+                        p13: [],
+                        p14: [],
+                        p15: [],
+                        p16: [],
+                        p17: [],
+                        p18: [],
+                        p19: [],
+                        p20: [],
+                    },
                 },
                 brands: [],
                 programmes:[],
-                p1: [ ],
-                p2: [ ],
-                p3: [ ],
-                p4: [ ],
-                p5: [ ],
-                p6: [ ],
-                p7: [ ],
-                p8: [ ],
-                p9: [ ],
-                p10: [ ],
-                p11: [ ],
-                p12: [ ],
-                p13: [ ],
-                p14: [ ],
-                p15: [ ],
-                p16: [ ],
-                p17: [ ],
-                p18: [ ],
-                p19: [ ],
-                p20: [ ],
                 //空数组之在的样式，设置了这个样式才能拖入
                 style:'min-height:100px;display: block;'
             };
@@ -657,6 +662,7 @@
             selectAll(){
                 axios.get("/main/select").then((res)=>{
                     this.brands = res.data.data;
+                    this.form.count = parseInt(res.data.msg);
                 });
             },
             onStart() {
@@ -675,6 +681,44 @@
                 //     this.editDialogVisible = true;
                 // })
             },
+
+            //成功
+            Success() {
+                this.$message({
+                    showClose: true,
+                    message: 'Success!',
+                    type: 'success'
+                });
+            },
+            //失败
+            Error() {
+                this.$message({
+                    showClose: true,
+                    message: 'Error',
+                    type: 'error'
+                });
+            },
+
+            //查找
+            find(){
+                axios({
+                    method:"put",
+                    url:"http://localhost/plan/find",
+                    data:this.form
+                }).then(resp =>{
+                    this.Success();
+                })
+            },
+
+            save(){
+                axios({
+                    method:"post",
+                    url:"http://localhost/plan/save",
+                    data:this.form
+                }).then(resp =>{
+                    this.Success();
+                })
+            }
 
         }
     });

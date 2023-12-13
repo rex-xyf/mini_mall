@@ -98,8 +98,9 @@ public class BrandController {
     @GetMapping("/select")
     public Result getBySelect(){
         List<Brand> brands = brandService.getBySelect();
+        int count = brandService.getCountBySelect();
         int code = brands != null ? Code.GET_OK : Code.GET_ERR;
-        String msg = brands != null ? "" : "have no data";
+        String msg = brands != null ? String.valueOf(count) : "have no data";
         return new Result(code,brands,msg);
     }
 

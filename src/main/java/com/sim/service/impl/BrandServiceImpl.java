@@ -108,4 +108,9 @@ public class BrandServiceImpl implements BrandService {
     public List<Brand> getBySelect() {
         return brandDao.getBySelect();
     }
+
+    @Override
+    public int getCountBySelect() {
+        return brandDao.getCountBySelect();
+    }
 }

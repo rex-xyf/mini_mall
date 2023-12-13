@@ -97,4 +97,7 @@ public interface BrandDao {
 
     @Select("select * from brand where `select` = true and `delete` = false")
     public List<Brand> getBySelect();
+
+    @Select("select count(*) from brand where `select` = true and `delete` = false")
+    public int getCountBySelect();
 }

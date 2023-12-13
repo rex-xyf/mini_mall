@@ -36,4 +36,6 @@ public interface BrandService {
     public String upload(MultipartFile file);
 
     public List<Brand> getBySelect();
+
+    public int getCountBySelect();
 }

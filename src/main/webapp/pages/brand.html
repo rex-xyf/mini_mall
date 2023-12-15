@@ -17,8 +17,8 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-            <el-menu-item index="1">Brand Center</el-menu-item>
-            <el-menu-item index="2">Operation Dashboard</el-menu-item>
+            <el-menu-item index="1" @click="toMain">Brand Center</el-menu-item>
+            <el-menu-item index="2" @click="toLayout">Operation Dashboard</el-menu-item>
             <el-menu-item index="3" disabled>Statistic</el-menu-item>
         </el-menu>
     </el-header>
@@ -470,6 +470,12 @@
             }
         },
         methods: {
+            toMain(){
+                location.href="http://localhost/pages/brand.html"
+            },
+            toLayout(){
+                location.href="http://localhost/pages/layout.html"
+            },
             //顶框
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);

@@ -6,4 +6,9 @@ public class BrandServiceTest {
     public void upload() {
 
     }
+
+    @Test
+    public void getDeleteCount(){
+
+    }
 }

@@ -67,7 +67,7 @@
         >
             <template>
                 <el-table
-                        :data="brands"
+                        :data="form.brands"
                         style="width: 100%"
                         height="600px"
                 >
@@ -199,7 +199,6 @@
                 <el-form-item label="Competitor influence">
                     <el-slider
                             v-model="form.competitorInfluence"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -208,7 +207,6 @@
                 <el-form-item label="Type complementarity">
                     <el-slider
                             v-model="form.typeComplementarity"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -217,7 +215,6 @@
                 <el-form-item label="Brand awareness benefits">
                     <el-slider
                             v-model="form.brandBenefits"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -226,7 +223,6 @@
                 <el-form-item label="Scale-Flow efficiency">
                     <el-slider
                             v-model="form.sizeEfficiency"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -238,7 +234,7 @@
                     </el-alert>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="setUp">confirm</el-button>
+                    <el-button type="primary" @click="setUpDialogVisible = false">confirm</el-button>
                     <el-button @click="setUpDialogVisible = false">cancel</el-button>
                 </el-form-item>
             </el-form>
@@ -263,7 +259,7 @@
     <div class="itxst">
         <div class="col" id="brands" style="height: 800px;overflow: auto">
             <el-button type="primary" class="button" style="width: 75%" @click="find">Find</el-button>
-            <el-button type="primary" class="button" style="width: 75%">Save</el-button>
+            <el-button type="primary" class="button" style="width: 75%" @click="save">Save</el-button>
             <draggable v-model="brands" group="site" animation="100" @start="onStart" @end="onEnd" :scroll="true">
                 <transition-group  :style="style">
                     <div class="item" v-for="item in brands" :key="item.id"><el-image
@@ -624,10 +620,11 @@
                     name:'plan',
                     count:'',
                     strategy:'maxValue',
-                    competitorInfluence:[0.5,0.5],
-                    typeComplementarity:[0.5,0.5],
-                    brandBenefits:[0.5,0.5],
-                    sizeEfficiency:[0.5,0.5],
+                    competitorInfluence: 0.3,
+                    typeComplementarity: 0.3,
+                    brandBenefits: 0.2,
+                    sizeEfficiency: 0.2,
+                    brands:[],
                     location: {
                         p1: [],
                         p2: [],
@@ -668,6 +665,7 @@
             selectAll(){
                 axios.get("/main/select").then((res)=>{
                     this.brands = res.data.data;
+                    this.form.brands = res.data.data;
                     this.form.count = parseInt(res.data.msg);
                 });
             },
@@ -707,6 +705,7 @@
 
             //查找
             find(){
+                console.log(this.brands)
                 axios({
                     method:"put",
                     url:"http://localhost/plan/find",

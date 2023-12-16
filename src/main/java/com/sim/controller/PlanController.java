@@ -1,5 +1,6 @@
 package com.sim.controller;
 
+import com.algorithm.FindLayout;
 import com.sim.domain.Plan;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,8 @@ public class PlanController {
 
     @PutMapping("/find")
     public Result findPlan(@RequestBody Plan form){
-        System.out.println(form);
-        return new Result(Code.GET_OK,null,"");
+        Plan layout = FindLayout.getLayout(form);
+        return new Result(Code.GET_OK,layout,"");
     }
 
     @PostMapping("/save")

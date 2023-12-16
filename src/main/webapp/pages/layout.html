@@ -705,12 +705,13 @@
 
             //查找
             find(){
-                console.log(this.brands)
                 axios({
                     method:"put",
                     url:"http://localhost/plan/find",
                     data:this.form
                 }).then(resp =>{
+                    this.form.location = resp.data.data.location;
+                    this.brands = [];
                     this.Success();
                 })
             },

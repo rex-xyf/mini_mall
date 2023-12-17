@@ -13,7 +13,7 @@ public class FindLayout {
         double sizeEfficiency = plan.getSizeEfficiency();
         double brandBenefits = plan.getBrandBenefits();
         Location location = plan.getLocation();
-        // 以下是贪心算法的实现，以及商品的利润计算
+        // 贪心算法的实现，商品的利润计算
         Collections.sort(brands, Comparator.comparingDouble((Brand brand) -> calculateSellingPrice(brand, sizeEfficiency, brandBenefits)).reversed());
 
 //        List<Brand> largeBrands = new ArrayList<>();

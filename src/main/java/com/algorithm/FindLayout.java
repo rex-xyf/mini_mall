@@ -36,7 +36,6 @@ public class FindLayout {
 
         List<Brand> layBrands = removeBrands(location, brandList);
 
-        System.out.println(layBrands);
 
         for (Brand brand : layBrands) {
             if (location.getP3().size() == 0){
@@ -142,7 +141,6 @@ public class FindLayout {
             }
         }
 
-        System.out.println(location);
 
         plan.setLocation(location);
         return plan;

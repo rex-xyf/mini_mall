@@ -13,42 +13,54 @@ import java.util.List;
 public class PlanServiceImpl implements PlanService {
 
     @Override
-    public List<int[]> getProfit(Plan plan) {
-        int foodProfit = 0;
-        int clotheProfit = 0;
-        int entertainmentProfit = 0;
-        int shopProfit = 0;
+    public List<double[]> getProfit(Plan plan) {
+        double foodProfit = 0;
+        double clotheProfit = 0;
+        double entertainmentProfit = 0;
+        double shopProfit = 0;
+        double i = 1;
+        double j = plan.getBrandBenefits();
         List<Brand> brands = plan.getBrands();
         for (Brand brand : brands) {
-            if (brand.getType().equals("food")){
-                foodProfit += brand.getConsumption();
-            }else if (brand.getType().equals("clothe")){
-                clotheProfit += brand.getConsumption();
-            }else if (brand.getType().equals("entertainment")){
-                entertainmentProfit += brand.getConsumption();
-            }else if (brand.getType().equals("shop")){
-                shopProfit += brand.getConsumption();
+            if (brand.getSize().equals("large")){
+                i = 1+ (plan.getSizeEfficiency()/2);
+            }else if (brand.getSize().equals("small")){
+                i = 1-(plan.getSizeEfficiency()/2);
+            }
+            switch (brand.getType()) {
+                case "food":
+                    foodProfit += brand.getConsumption()*i*(1.0 - (brand.getLevel() - 3) * j);
+                    break;
+                case "clothe":
+                    clotheProfit += brand.getConsumption()*i*(1.0 - (brand.getLevel() - 3) * j);
+                    break;
+                case "entertainment":
+                    entertainmentProfit += brand.getConsumption()*i*(1.0 - (brand.getLevel() - 3) * j);
+                    break;
+                case "shop":
+                    shopProfit += brand.getConsumption()*i*(1.0 - (brand.getLevel() - 3) * j);
+                    break;
             }
         }
-        int totalProfit = foodProfit + clotheProfit + entertainmentProfit +shopProfit;
-        int[] ints2 = new int[5];
-        ints2[0] = totalProfit;
-        ints2[1] = foodProfit;
-        ints2[2] = clotheProfit;
-        ints2[3] = entertainmentProfit;
-        ints2[4] = shopProfit;
+        double totalProfit = foodProfit + clotheProfit + entertainmentProfit +shopProfit;
+        double[] doubles2 = new double[5];
+        doubles2[0] = totalProfit;
+        doubles2[1] = foodProfit;
+        doubles2[2] = clotheProfit;
+        doubles2[3] = entertainmentProfit;
+        doubles2[4] = shopProfit;
 
-        int[] ints1 = new int[5];
-        ints1[0] = 0;
-        ints1[1] = totalProfit -foodProfit;
-        ints1[2] = totalProfit -foodProfit -clotheProfit;
-        ints1[3] = totalProfit -foodProfit -clotheProfit -entertainmentProfit;
-        ints1[4] = totalProfit -foodProfit -clotheProfit -entertainmentProfit -shopProfit;
+        double[] doubles1 = new double[5];
+        doubles1[0] = 0;
+        doubles1[1] = totalProfit -foodProfit;
+        doubles1[2] = totalProfit -foodProfit -clotheProfit;
+        doubles1[3] = totalProfit -foodProfit -clotheProfit -entertainmentProfit;
+        doubles1[4] = totalProfit -foodProfit -clotheProfit -entertainmentProfit -shopProfit;
 
-        List<int[]> ints = new ArrayList<>(2);
-        ints.add(ints1);
-        ints.add(ints2);
-        return ints;
+        List<double[]> doubles = new ArrayList<>(2);
+        doubles.add(doubles1);
+        doubles.add(doubles2);
+        return doubles;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Transactional
 public interface PlanService {
-    public List<int[]> getProfit(Plan plan);
+    public List<double[]> getProfit(Plan plan);
 
     public List<int[]> getScatter(Plan plan);
 

@@ -80,7 +80,7 @@
                         <el-option label="shop" value="shop"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Brand Awareness (Decreasing from 1 to 5)">
+                <el-form-item label="Brand Awareness">
                     <el-select v-model="form.level" placeholder="Please select brand awareness">
                         <el-option label="Extremely High" value=1></el-option>
                         <el-option label="High" value=2></el-option>
@@ -253,7 +253,7 @@
                 </el-table-column>
                 <el-table-column
                         align="center"
-                        label="Level"
+                        label="Brand Awareness"
                 >
                     <template slot-scope="scope">
                         <span v-if="scope.row.level === 1">Extremely High</span>

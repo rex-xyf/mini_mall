@@ -28,7 +28,6 @@
                 active-text-color="#ffd04b">
             <el-menu-item index="1" @click="toMain">Brand Center</el-menu-item>
             <el-menu-item index="2" @click="toLayout">Operation Dashboard</el-menu-item>
-<!--            <el-menu-item index="3" :disabled="statisticDisabled">Statistic</el-menu-item>-->
         </el-menu>
     </el-header>
 
@@ -56,32 +55,6 @@
                 <span slot="title">Fold</span>
             </el-menu-item>
         </el-menu>
-<!--        <el-menu-->
-<!--                class="el-menu-vertical-demo"-->
-<!--                @open="handleOpen"-->
-<!--                @close="handleClose">-->
-<!--            <el-menu-item index="1" @click="brandDialogVisible = true">-->
-<!--                <i class="el-icon-menu"></i>-->
-<!--                <span slot="title">Brands</span>-->
-<!--            </el-menu-item>-->
-<!--&lt;!&ndash;            <el-menu-item index="2">&ndash;&gt;-->
-<!--&lt;!&ndash;                <i class="el-icon-document"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;                <span slot="title" @click="programmeDialogVisible = true">Programme</span>&ndash;&gt;-->
-<!--&lt;!&ndash;            </el-menu-item>&ndash;&gt;-->
-<!--            <el-menu-item index="2" @click="programmeDialogVisible = true" :disabled="statisticDisabled">-->
-<!--                <i class="el-icon-document"></i>-->
-<!--                <span slot="title">Data</span>-->
-<!--            </el-menu-item>-->
-
-<!--            <el-menu-item index="3" @click="setUpDialogVisible = true">-->
-<!--                <i class="el-icon-setting"></i>-->
-<!--                <span slot="title">Set up</span>-->
-<!--            </el-menu-item>-->
-<!--            <el-menu-item index="4" @click="supportDialogVisible = true">-->
-<!--                <i class="el-icon-question"></i>-->
-<!--                <span slot="title">Support</span>-->
-<!--            </el-menu-item>-->
-<!--        </el-menu>-->
     </el-aside>
 
 
@@ -177,71 +150,6 @@
                 </el-tabs>
             </template>
         </el-dialog>
-
-<!--        2方案-->
-<!--        <el-dialog-->
-<!--                title="Programme"-->
-<!--                :visible.sync="programmeDialogVisible"-->
-<!--                width="80%"-->
-<!--                height="600px"-->
-<!--        >-->
-<!--            <template>-->
-<!--                <el-table-->
-<!--                        :data="programmes"-->
-<!--                        style="width: 100%"-->
-<!--                        height="600px"-->
-<!--                >-->
-<!--                    <el-table-column-->
-<!--                            align="center"-->
-<!--                            type="index"-->
-<!--                            sortable>-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column-->
-<!--                            prop="name"-->
-<!--                            label="Name"-->
-<!--                            align="center">-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column-->
-<!--                            prop="number"-->
-<!--                            label="Number"-->
-<!--                            align="center">-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column-->
-<!--                            prop="strategy"-->
-<!--                            label="Strategy"-->
-<!--                            align="center">-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column-->
-<!--                            prop="competitorInfluence"-->
-<!--                            label="Competitor influence"-->
-<!--                            align="center">-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column-->
-<!--                            prop="typeComplementarity"-->
-<!--                            label="Type complementarity"-->
-<!--                            align="center">-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column-->
-<!--                            prop="brandBenefits"-->
-<!--                            label="Brand benefits"-->
-<!--                            align="center">-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column-->
-<!--                            prop="sizeEfficiency"-->
-<!--                            label="Scale-Flow efficiency"-->
-<!--                            align="center">-->
-<!--                    </el-table-column>-->
-<!--                    <el-table-column label="operation"-->
-<!--                                     align="center">-->
-<!--                        <template slot-scope="scope">-->
-<!--                            <el-button-->
-<!--                                    size="mini"-->
-<!--                                    @click="handleEdit(scope.$index, scope.row)">Edit</el-button>-->
-<!--                        </template>-->
-<!--                    </el-table-column>-->
-<!--                </el-table>-->
-<!--            </template>-->
-<!--        </el-dialog>-->
 
 <!--        3设置-->
         <el-dialog

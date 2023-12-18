@@ -15,7 +15,7 @@ public class FindBalanceLayout {
     public static Plan getBalance(Plan plan) {
         List<Brand> brands = plan.getBrands();
         Location location = plan.getLocation();
-        // 固定的倍率
+        // 倍率
         double fixedSizeEfficient =plan.getSizeEfficiency();
         double brandBenefits = plan.getBrandBenefits();
 

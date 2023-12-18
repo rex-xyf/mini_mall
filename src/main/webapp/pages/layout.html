@@ -34,23 +34,15 @@
 
     <el-container>
     <el-aside width="170px">
-        <el-menu
-                class="el-menu-vertical-demo"
-                @open="handleOpen"
-                @close="handleClose">
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse" :collapse-transition="false">
             <el-menu-item index="1" @click="brandDialogVisible = true">
                 <i class="el-icon-menu"></i>
                 <span slot="title">Brands</span>
             </el-menu-item>
-<!--            <el-menu-item index="2">-->
-<!--                <i class="el-icon-document"></i>-->
-<!--                <span slot="title" @click="programmeDialogVisible = true">Programme</span>-->
-<!--            </el-menu-item>-->
             <el-menu-item index="2" @click="programmeDialogVisible = true" :disabled="statisticDisabled">
                 <i class="el-icon-document"></i>
                 <span slot="title">Data</span>
             </el-menu-item>
-
             <el-menu-item index="3" @click="setUpDialogVisible = true">
                 <i class="el-icon-setting"></i>
                 <span slot="title">Set up</span>
@@ -59,7 +51,37 @@
                 <i class="el-icon-question"></i>
                 <span slot="title">Support</span>
             </el-menu-item>
+            <el-menu-item index="5" @click="isCollapse = !isCollapse">
+                <i class="el-icon-s-unfold"></i>
+                <span slot="title">Fold</span>
+            </el-menu-item>
         </el-menu>
+<!--        <el-menu-->
+<!--                class="el-menu-vertical-demo"-->
+<!--                @open="handleOpen"-->
+<!--                @close="handleClose">-->
+<!--            <el-menu-item index="1" @click="brandDialogVisible = true">-->
+<!--                <i class="el-icon-menu"></i>-->
+<!--                <span slot="title">Brands</span>-->
+<!--            </el-menu-item>-->
+<!--&lt;!&ndash;            <el-menu-item index="2">&ndash;&gt;-->
+<!--&lt;!&ndash;                <i class="el-icon-document"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                <span slot="title" @click="programmeDialogVisible = true">Programme</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </el-menu-item>&ndash;&gt;-->
+<!--            <el-menu-item index="2" @click="programmeDialogVisible = true" :disabled="statisticDisabled">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span slot="title">Data</span>-->
+<!--            </el-menu-item>-->
+
+<!--            <el-menu-item index="3" @click="setUpDialogVisible = true">-->
+<!--                <i class="el-icon-setting"></i>-->
+<!--                <span slot="title">Set up</span>-->
+<!--            </el-menu-item>-->
+<!--            <el-menu-item index="4" @click="supportDialogVisible = true">-->
+<!--                <i class="el-icon-question"></i>-->
+<!--                <span slot="title">Support</span>-->
+<!--            </el-menu-item>-->
+<!--        </el-menu>-->
     </el-aside>
 
 
@@ -101,9 +123,16 @@
                             align="center">
                     </el-table-column>
                     <el-table-column
-                            prop="level"
-                            label="Level"
+                            label="Brand awareness"
                             align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.level === 1">Extremely High</span>
+                            <span v-else-if="scope.row.level === 2">High</span>
+                            <span v-else-if="scope.row.level === 3">Moderate</span>
+                            <span v-else-if="scope.row.level === 4">Low</span>
+                            <span v-else-if="scope.row.level === 5">Extremely Low</span>
+                            <span v-else>Unknown</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="size"
@@ -112,12 +141,12 @@
                     </el-table-column>
                     <el-table-column
                             prop="consumption"
-                            label="Consumption"
+                            label="Daily Turnover($)"
                             align="center">
                     </el-table-column>
                     <el-table-column
                             prop="duration"
-                            label="Duration"
+                            label="Opening hours"
                             align="center">
                     </el-table-column>
                 </el-table>
@@ -634,6 +663,7 @@
         },
         data() {
             return {
+                isCollapse: true,
                 activeName:'first',
                 activeIndex: '2',
                 supportDialogVisible: false,

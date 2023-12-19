@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
     <script src="../js/vue.js"></script>
     <script src="../js/axios.js"></script>
     <script src="../element-ui/lib/index.js"></script>
@@ -27,31 +28,31 @@
                 active-text-color="#ffd04b">
             <el-menu-item index="1" @click="toMain">Brand Center</el-menu-item>
             <el-menu-item index="2" @click="toLayout">Operation Dashboard</el-menu-item>
-            <el-menu-item index="3" disabled>Statistic</el-menu-item>
         </el-menu>
     </el-header>
 
     <el-container>
     <el-aside width="170px">
-        <el-menu
-                class="el-menu-vertical-demo"
-                @open="handleOpen"
-                @close="handleClose">
-            <el-menu-item index="1">
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse" :collapse-transition="false">
+            <el-menu-item index="1" @click="brandDialogVisible = true">
                 <i class="el-icon-menu"></i>
-                <span slot="title" @click="brandDialogVisible = true">Brands</span>
+                <span slot="title">Brands</span>
             </el-menu-item>
-            <el-menu-item index="2">
+            <el-menu-item index="2" @click="programmeDialogVisible = true" :disabled="statisticDisabled">
                 <i class="el-icon-document"></i>
-                <span slot="title" @click="programmeDialogVisible = true">Programme</span>
+                <span slot="title">Data</span>
             </el-menu-item>
-            <el-menu-item index="3">
+            <el-menu-item index="3" @click="setUpDialogVisible = true">
                 <i class="el-icon-setting"></i>
-                <span slot="title" @click="setUpDialogVisible = true">Set up</span>
+                <span slot="title">Set up</span>
             </el-menu-item>
-            <el-menu-item index="4">
+            <el-menu-item index="4" @click="supportDialogVisible = true">
                 <i class="el-icon-question"></i>
-                <span slot="title" @click="supportDialogVisible = true">Support</span>
+                <span slot="title">Support</span>
+            </el-menu-item>
+            <el-menu-item index="5" @click="isCollapse = !isCollapse">
+                <i class="el-icon-s-unfold"></i>
+                <span slot="title">Fold</span>
             </el-menu-item>
         </el-menu>
     </el-aside>
@@ -67,7 +68,7 @@
         >
             <template>
                 <el-table
-                        :data="brands"
+                        :data="form.brands"
                         style="width: 100%"
                         height="600px"
                 >
@@ -95,9 +96,16 @@
                             align="center">
                     </el-table-column>
                     <el-table-column
-                            prop="level"
-                            label="Level"
+                            label="Brand awareness"
                             align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.level === 1">Extremely High</span>
+                            <span v-else-if="scope.row.level === 2">High</span>
+                            <span v-else-if="scope.row.level === 3">Moderate</span>
+                            <span v-else-if="scope.row.level === 4">Low</span>
+                            <span v-else-if="scope.row.level === 5">Extremely Low</span>
+                            <span v-else>Unknown</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="size"
@@ -106,80 +114,40 @@
                     </el-table-column>
                     <el-table-column
                             prop="consumption"
-                            label="Consumption"
+                            label="Daily Turnover($)"
                             align="center">
                     </el-table-column>
                     <el-table-column
                             prop="duration"
-                            label="Duration"
+                            label="Opening hours"
                             align="center">
                     </el-table-column>
                 </el-table>
             </template>
         </el-dialog>
 
-<!--        2方案-->
         <el-dialog
-                title="Programme"
                 :visible.sync="programmeDialogVisible"
-                width="80%"
-                height="600px"
+                width="1400px"
+                height="800px"
+                @opened="getChart"
         >
             <template>
-                <el-table
-                        :data="programmes"
-                        style="width: 100%"
-                        height="600px"
-                >
-                    <el-table-column
-                            align="center"
-                            type="index"
-                            sortable>
-                    </el-table-column>
-                    <el-table-column
-                            prop="name"
-                            label="Name"
-                            align="center">
-                    </el-table-column>
-                    <el-table-column
-                            prop="number"
-                            label="Number"
-                            align="center">
-                    </el-table-column>
-                    <el-table-column
-                            prop="strategy"
-                            label="Strategy"
-                            align="center">
-                    </el-table-column>
-                    <el-table-column
-                            prop="competitorInfluence"
-                            label="Competitor influence"
-                            align="center">
-                    </el-table-column>
-                    <el-table-column
-                            prop="typeComplementarity"
-                            label="Type complementarity"
-                            align="center">
-                    </el-table-column>
-                    <el-table-column
-                            prop="brandBenefits"
-                            label="Brand benefits"
-                            align="center">
-                    </el-table-column>
-                    <el-table-column
-                            prop="sizeEfficiency"
-                            label="Scale-Flow efficiency"
-                            align="center">
-                    </el-table-column>
-                    <el-table-column label="operation"
-                                     align="center">
-                        <template slot-scope="scope">
-                            <el-button
-                                    size="mini"
-                                    @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
+
+                <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                    <el-tab-pane label="Profit distribution" name="first">
+                        <div id="chart1" style="width:1400px;height:600px"></div>
+                    </el-tab-pane>
+                    <el-tab-pane label="Store type ratio" name="second">
+                        <div id="chart2" style="width:1400px;height:600px"></div>
+                    </el-tab-pane>
+                    <el-tab-pane label="Consumption_Human traffic" name="third">
+                        <div id="chart3" style="width:1400px;height:600px"></div>
+                    </el-tab-pane>
+                    <el-tab-pane label="Brand awareness ratio" name="fourth">
+                        <div id="chart4" style="width:1400px;height:600px"></div>
+                    </el-tab-pane>
+                </el-tabs>
             </template>
         </el-dialog>
 
@@ -199,7 +167,6 @@
                 <el-form-item label="Competitor influence">
                     <el-slider
                             v-model="form.competitorInfluence"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -208,7 +175,6 @@
                 <el-form-item label="Type complementarity">
                     <el-slider
                             v-model="form.typeComplementarity"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -217,7 +183,6 @@
                 <el-form-item label="Brand awareness benefits">
                     <el-slider
                             v-model="form.brandBenefits"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -226,7 +191,6 @@
                 <el-form-item label="Scale-Flow efficiency">
                     <el-slider
                             v-model="form.sizeEfficiency"
-                            range
                             show-stops
                             :step="0.1"
                             :max="1">
@@ -238,7 +202,7 @@
                     </el-alert>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="setUp">confirm</el-button>
+                    <el-button type="primary" @click="setUpDialogVisible = false">confirm</el-button>
                     <el-button @click="setUpDialogVisible = false">cancel</el-button>
                 </el-form-item>
             </el-form>
@@ -263,7 +227,7 @@
     <div class="itxst">
         <div class="col" id="brands" style="height: 800px;overflow: auto">
             <el-button type="primary" class="button" style="width: 75%" @click="find">Find</el-button>
-            <el-button type="primary" class="button" style="width: 75%">Save</el-button>
+            <el-button type="primary" class="button" style="width: 75%" @click="toLayout">reset</el-button>
             <draggable v-model="brands" group="site" animation="100" @start="onStart" @end="onEnd" :scroll="true">
                 <transition-group  :style="style">
                     <div class="item" v-for="item in brands" :key="item.id"><el-image
@@ -607,27 +571,31 @@
         },
         data() {
             return {
+                isCollapse: true,
+                activeName:'first',
                 activeIndex: '2',
                 supportDialogVisible: false,
                 brandDialogVisible: false,
                 setUpDialogVisible: false,
                 programmeDialogVisible: false,
                 drag: false,
+                statisticDisabled: true,
                 imgwrap:[
                     {url:"../img/map.jpg"},
-                    {url:"../img/map.jpg"},
-                    {url:"../img/map.jpg"},
-                    {url:"../img/map.jpg"},
+                    {url:"../img/map1.png"},
+                    {url:"../img/map2.png"},
+                    {url:"../img/map3.png"},
                 ],
                 form: {
                     id:'0',
                     name:'plan',
                     count:'',
                     strategy:'maxValue',
-                    competitorInfluence:[0.5,0.5],
-                    typeComplementarity:[0.5,0.5],
-                    brandBenefits:[0.5,0.5],
-                    sizeEfficiency:[0.5,0.5],
+                    competitorInfluence: 0.3,
+                    typeComplementarity: 0.3,
+                    brandBenefits: 0.2,
+                    sizeEfficiency: 0.2,
+                    brands:[],
                     location: {
                         p1: [],
                         p2: [],
@@ -668,6 +636,7 @@
             selectAll(){
                 axios.get("/main/select").then((res)=>{
                     this.brands = res.data.data;
+                    this.form.brands = res.data.data;
                     this.form.count = parseInt(res.data.msg);
                 });
             },
@@ -712,7 +681,200 @@
                     url:"http://localhost/plan/find",
                     data:this.form
                 }).then(resp =>{
+                    this.form.location = resp.data.data.location;
+                    this.brands = [];
+                    this.statisticDisabled = false;
                     this.Success();
+                })
+            },
+
+            handleClick(tab, event) {
+                console.log(tab, event);
+            },
+
+            getChart(){
+                this.getChart2();
+                this.getChart1();
+                this.getChart3();
+                this.getChart4();
+            },
+
+            getChart1(){
+                axios({
+                    method:'put',
+                    url:'http://localhost/plan/getChart1',
+                    data:this.form
+                }).then(resp=>{
+                    var myChart1 = echarts.init(document.getElementById('chart1'));
+
+                    var option1 = {
+                        title: {
+                            text: 'Profit distribution',
+                            subtext: 'Waterfall Chart',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            formatter: function (params) {
+                                var tar = params[1];
+                                return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value;
+                            }
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            splitLine: {show: false},
+                            data: ['Total', 'Food', 'Clothe', 'Entertainment', 'Shop']
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: 'Placeholder',
+                                type: 'bar',
+                                stack: 'Total',
+                                itemStyle: {
+                                    borderColor: 'transparent',
+                                    color: 'transparent'
+                                },
+                                emphasis: {
+                                    itemStyle: {
+                                        borderColor: 'transparent',
+                                        color: 'transparent'
+                                    }
+                                },
+                                data:resp.data.data[0]
+                            },
+                            {
+                                name: 'Consumption',
+                                type: 'bar',
+                                stack: 'Total',
+                                label: {
+                                    show: true,
+                                    position: 'inside'
+                                },
+                                data:resp.data.data[1]
+                            }
+                        ]
+                    }
+                    myChart1.setOption(option1);
+                })
+            },
+
+            getChart2(){
+                axios({
+                    method:'put',
+                    url:'http://localhost/plan/getChart2',
+                    data:this.form
+                }).then(resp=>{
+                    console.log(resp.data)
+                    var myChart2 = echarts.init(document.getElementById('chart2'));
+
+                    var option2 = {
+                        title: {
+                            text: 'Brand Type',
+                            subtext: 'Pie chart',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left'
+                        },
+                        series: [
+                            {
+                                name: 'Number',
+                                type: 'pie',
+                                radius: '50%',
+                                data: resp.data.data,
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    myChart2.setOption(option2);
+                })
+            },
+
+            getChart3(){
+                axios({
+                    method:'put',
+                    url:'http://localhost/plan/getChart3',
+                    data:this.form
+                }).then(resp=>{
+                    console.log(resp.data)
+                    var myChart3 = echarts.init(document.getElementById('chart3'));
+
+                    var option3 = {
+                        xAxis: {},
+                        yAxis: {},
+                        series: [
+                            {
+                                symbolSize: 20,
+                                data: resp.data.data,
+                                type: 'scatter'
+                            }
+                        ]
+                    };
+                    myChart3.setOption(option3);
+                })
+            },
+
+            getChart4(){
+                axios({
+                    method:'put',
+                    url:'http://localhost/plan/getChart4',
+                    data:this.form
+                }).then(resp=>{
+                    console.log(resp.data)
+                    var myChart4 = echarts.init(document.getElementById('chart4'));
+
+                    var option4 = {
+                        title: {
+                            text: 'Brand Level',
+                            subtext: 'Pie chart',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left'
+                        },
+                        series: [
+                            {
+                                name: 'Number',
+                                type: 'pie',
+                                radius: '50%',
+                                data: resp.data.data,
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    myChart4.setOption(option4);
                 })
             },
 
@@ -722,7 +884,7 @@
                     url:"http://localhost/plan/save",
                     data:this.form
                 }).then(resp =>{
-                    this.Success();
+                   this.Success();
                 })
             }
 

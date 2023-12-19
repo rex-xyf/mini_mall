@@ -7,16 +7,17 @@ public class Plan {
     private String name;
     private int count;
     private String strategy;
-    private List<Double> competitorInfluence;
-    private List<Double> typeComplementarity;
-    private List<Double> brandBenefits;
-    private List<Double> sizeEfficiency;
+    private double competitorInfluence;
+    private double typeComplementarity;
+    private double brandBenefits;
+    private double sizeEfficiency;
+    private List<Brand> brands;
     private Location location;
 
     public Plan() {
     }
 
-    public Plan(int id, String name, int count, String strategy, List<Double> competitorInfluence, List<Double> typeComplementarity, List<Double> brandBenefits, List<Double> sizeEfficiency, Location location) {
+    public Plan(int id, String name, int count, String strategy, double competitorInfluence, double typeComplementarity, double brandBenefits, double sizeEfficiency, List<Brand> brands, Location location) {
         this.id = id;
         this.name = name;
         this.count = count;
@@ -25,6 +26,7 @@ public class Plan {
         this.typeComplementarity = typeComplementarity;
         this.brandBenefits = brandBenefits;
         this.sizeEfficiency = sizeEfficiency;
+        this.brands = brands;
         this.location = location;
     }
 
@@ -60,35 +62,35 @@ public class Plan {
         this.strategy = strategy;
     }
 
-    public List<Double> getCompetitorInfluence() {
+    public double getCompetitorInfluence() {
         return competitorInfluence;
     }
 
-    public void setCompetitorInfluence(List<Double> competitorInfluence) {
+    public void setCompetitorInfluence(double competitorInfluence) {
         this.competitorInfluence = competitorInfluence;
     }
 
-    public List<Double> getTypeComplementarity() {
+    public double getTypeComplementarity() {
         return typeComplementarity;
     }
 
-    public void setTypeComplementarity(List<Double> typeComplementarity) {
+    public void setTypeComplementarity(double typeComplementarity) {
         this.typeComplementarity = typeComplementarity;
     }
 
-    public List<Double> getBrandBenefits() {
+    public double getBrandBenefits() {
         return brandBenefits;
     }
 
-    public void setBrandBenefits(List<Double> brandBenefits) {
+    public void setBrandBenefits(double brandBenefits) {
         this.brandBenefits = brandBenefits;
     }
 
-    public List<Double> getSizeEfficiency() {
+    public double getSizeEfficiency() {
         return sizeEfficiency;
     }
 
-    public void setSizeEfficiency(List<Double> sizeEfficiency) {
+    public void setSizeEfficiency(double sizeEfficiency) {
         this.sizeEfficiency = sizeEfficiency;
     }
 
@@ -98,6 +100,14 @@ public class Plan {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public List<Brand> getBrands() {
+        return brands;
+    }
+
+    public void setBrands(List<Brand> brands) {
+        this.brands = brands;
     }
 
     @Override
@@ -111,6 +121,7 @@ public class Plan {
                 ", typeComplementarity=" + typeComplementarity +
                 ", brandBenefits=" + brandBenefits +
                 ", sizeEfficiency=" + sizeEfficiency +
+                ", brands=" + brands +
                 ", location=" + location +
                 '}';
     }

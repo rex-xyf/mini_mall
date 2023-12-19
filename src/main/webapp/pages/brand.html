@@ -19,7 +19,6 @@
                 active-text-color="#ffd04b">
             <el-menu-item index="1" @click="toMain">Brand Center</el-menu-item>
             <el-menu-item index="2" @click="toLayout">Operation Dashboard</el-menu-item>
-            <el-menu-item index="3" disabled>Statistic</el-menu-item>
         </el-menu>
     </el-header>
 
@@ -81,13 +80,13 @@
                         <el-option label="shop" value="shop"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Level">
-                    <el-select v-model="form.level" placeholder="Please select store level">
-                        <el-option label="1" value=1></el-option>
-                        <el-option label="2" value=2></el-option>
-                        <el-option label="3" value=3></el-option>
-                        <el-option label="4" value=4></el-option>
-                        <el-option label="5" value=5></el-option>
+                <el-form-item label="Brand Awareness">
+                    <el-select v-model="form.level" placeholder="Please select brand awareness">
+                        <el-option label="Extremely High" value=1></el-option>
+                        <el-option label="High" value=2></el-option>
+                        <el-option label="Medorate" value=3></el-option>
+                        <el-option label="Low" value=4></el-option>
+                        <el-option label="Extremely Low" value=5></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Size">
@@ -97,10 +96,10 @@
                         <el-option label="small" value="small"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Consumption">
+                <el-form-item label="Daily Turnover($)">
                     <el-input v-model="form.consumption"></el-input>
                 </el-form-item>
-                <el-form-item label="Duration">
+                <el-form-item label="Opening hours">
                     <el-input v-model="form.duration"></el-input>
                 </el-form-item>
 
@@ -121,7 +120,7 @@
         <el-dialog
                 title="Recycle Bin"
                 :visible.sync="deleteDialogVisible"
-                width="60%">
+                width="70%">
             <template>
                 <el-table
                         :data="deleteData"
@@ -151,8 +150,16 @@
                     </el-table-column>
                     <el-table-column
                             prop="level"
-                            label="Level"
+                            label="Brand awareness"
                             align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.level === 1">Extremely High</span>
+                            <span v-else-if="scope.row.level === 2">High</span>
+                            <span v-else-if="scope.row.level === 3">Moderate</span>
+                            <span v-else-if="scope.row.level === 4">Low</span>
+                            <span v-else-if="scope.row.level === 5">Extremely Low</span>
+                            <span v-else>Unknown</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="size"
@@ -161,12 +168,12 @@
                     </el-table-column>
                     <el-table-column
                             prop="consumption"
-                            label="Consumption"
+                            label="Daily Turnover($)"
                             align="center">
                     </el-table-column>
                     <el-table-column
                             prop="duration"
-                            label="Duration"
+                            label="Opening hours"
                             align="center">
                     </el-table-column>
                     <el-table-column
@@ -246,10 +253,16 @@
                 </el-table-column>
                 <el-table-column
                         align="center"
-                        prop="level"
-                        label="Level"
-                        sortable
+                        label="Brand Awareness"
                 >
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.level === 1">Extremely High</span>
+                        <span v-else-if="scope.row.level === 2">High</span>
+                        <span v-else-if="scope.row.level === 3">Moderate</span>
+                        <span v-else-if="scope.row.level === 4">Low</span>
+                        <span v-else-if="scope.row.level === 5">Extremely Low</span>
+                        <span v-else>Unknown</span>
+                    </template>
                 </el-table-column>
 
                 <el-table-column
@@ -264,7 +277,7 @@
                 <el-table-column
                         align="center"
                         prop="consumption"
-                        label="Per Consumption ($)"
+                        label="Daily Turnover($)"
                         sortable
                 >
                 </el-table-column>
@@ -272,7 +285,7 @@
                 <el-table-column
                         align="center"
                         prop="duration"
-                        label="Per Duration (min)"
+                        label="Opening Hours"
                         sortable
                 >
                 </el-table-column>
@@ -347,12 +360,12 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Level">
-                    <el-select v-model="updateForm.level" placeholder="Please select store level">
-                        <el-option label="1" value=1></el-option>
-                        <el-option label="2" value=2></el-option>
-                        <el-option label="3" value=3></el-option>
-                        <el-option label="4" value=4></el-option>
-                        <el-option label="5" value=5></el-option>
+                    <el-select v-model="updateForm.level" placeholder="Please select brand awareness">
+                        <el-option label="Extremely High" value=1></el-option>
+                        <el-option label="High" value=2></el-option>
+                        <el-option label="Medorate" value=3></el-option>
+                        <el-option label="Low" value=4></el-option>
+                        <el-option label="Extremely Low" value=5></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Size">
@@ -362,10 +375,10 @@
                         <el-option label="small" value="small"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Consumption">
+                <el-form-item label="Daily Turnover($)">
                     <el-input v-model="updateForm.consumption"></el-input>
                 </el-form-item>
-                <el-form-item label="Duration">
+                <el-form-item label="Opening Hours">
                     <el-input v-model="updateForm.duration"></el-input>
                 </el-form-item>
                 <el-form-item>
